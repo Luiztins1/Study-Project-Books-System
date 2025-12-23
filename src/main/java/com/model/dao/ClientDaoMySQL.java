@@ -29,7 +29,7 @@ public class ClientDaoMySQL implements RequestDao{
 	}
 
 	@Override
-	public List findAll() {
+	public List<?> findAll() {
 		// TODO Auto-generated method stub
 		return null;
 	}

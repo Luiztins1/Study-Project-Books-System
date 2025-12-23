@@ -29,8 +29,7 @@ public class BooksDaoMySQL implements RequestDao{
 	}
 
 	@Override
-	public List findAll() {
-		// TODO Auto-generated method stub
+	public List<?> findAll() {
 		return null;
 	}
 
