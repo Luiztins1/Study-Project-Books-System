@@ -3,47 +3,40 @@ package com.model.dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+
 
 public class EmployeeDaoMySQL implements RequestDao{
 	
-	private EntityManagerFactory emf = Persistence.createEntityManagerFactory("books-system");
 	private EntityManager em;
 	
 	public EmployeeDaoMySQL() {
 		
 	}
-
-	@Override
-	public void insert() {
-		//Inicia Transação
-		em.getTransaction().begin();;
-		
-		em.persist(em);
-		
-		//Confirma Transação
-		em.getTransaction().commit();
-		
-		//Fecha a conexão.
-		em.close();
-		emf.close();
+	
+	public EmployeeDaoMySQL(EntityManager em) {
+		this.em = em;
 	}
 
 	@Override
-	public Integer findById() {
+	public Object insert(Object type) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<Object> findAll() {
-		
+	public Integer findById(Object type) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public String findName(String name) {
+	public List findAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String findName(Object type) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -55,9 +48,9 @@ public class EmployeeDaoMySQL implements RequestDao{
 	}
 
 	@Override
-	public void delete() {
+	public Object delete(Object type) {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
 
 }

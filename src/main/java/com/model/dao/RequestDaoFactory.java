@@ -1,23 +1,28 @@
 package com.model.dao;
 
-import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityManager;
 
 public class RequestDaoFactory {
+	private EntityManager em;
 	
-	public void createEmployeeDaoMySQL(EntityManagerFactory em) {
-		em.createEntityManager();
+	public RequestDaoFactory(EntityManager em) {
+		this.em = em;
 	}
 	
-	public void createManagerDaoMySQL(EntityManagerFactory em) {
-		em.createEntityManager();
+	public EmployeeDaoMySQL createEmployeeDaoMySQL() {
+		return new EmployeeDaoMySQL(this.em);
 	}
 	
-	public void createClientDaoMySQL(EntityManagerFactory em) {
-		em.createEntityManager();
+	public ManagerDaoMySQL createManagerDaoMySQL() {
+		return new ManagerDaoMySQL(this.em);
 	}
 	
-	public void createBooksDaoMySQL(EntityManagerFactory em) {
-		em.createEntityManager();
+	public ClientDaoMySQL createClientDaoMySQL() {
+		return new ClientDaoMySQL(this.em);
+	}
+	
+	public BooksDaoMySQL createBooksDaoMySQL() {
+		return new BooksDaoMySQL(this.em);
 	}
 
 }

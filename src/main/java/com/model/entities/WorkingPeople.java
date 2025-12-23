@@ -1,9 +1,13 @@
 package com.model.entities;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class WorkingPeople {
+public class WorkingPeople implements Serializable{
+	
+	
+	private static final long serialVersionUID = 1L;
 	
 	private String name;
 	private Integer password;

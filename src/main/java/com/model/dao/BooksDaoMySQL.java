@@ -2,33 +2,40 @@ package com.model.dao;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+
 
 public class BooksDaoMySQL implements RequestDao{
 
+	private EntityManager em;
+	
 	public BooksDaoMySQL() {
 		
 	}
-
-	@Override
-	public void insert() {
-		// TODO Auto-generated method stub
-		
+	
+	public BooksDaoMySQL(EntityManager em) {
+		this.em = em;
 	}
 
 	@Override
-	public Integer findById() {
+	public Object insert(Object type) {
+		return null;
+	}
+
+	@Override
+	public Integer findById(Object type) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<Object> findAll() {
+	public List findAll() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public String findName(String name) {
+	public String findName(Object type) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -40,10 +47,9 @@ public class BooksDaoMySQL implements RequestDao{
 	}
 
 	@Override
-	public void delete() {
+	public Object delete(Object type) {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
-	
-	
+
 }

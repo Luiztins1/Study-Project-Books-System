@@ -1,5 +1,6 @@
 package com.model.entities;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
@@ -9,8 +10,10 @@ import javax.persistence.Id;
 import javax.persistence.GenerationType;
 
 @Entity
-public class ClientBase {
-	
+public class ClientBase implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;

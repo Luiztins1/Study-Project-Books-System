@@ -3,13 +3,13 @@ package com.model.dao;
 import java.util.List;
 
 
-public interface RequestDao {
+public interface RequestDao<T> {
 
-	public void insert();
-	public Integer findById();
-	public List<Object> findAll();
-	public String findName(String name);
+	public T insert(T type);
+	public Integer findById(T type);
+	public List<T> findAll();
+	public String findName(T type);
 	public void update();
-	public void delete();
+	public T delete(T type);
 
 }

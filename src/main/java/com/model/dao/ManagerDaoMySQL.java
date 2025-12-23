@@ -2,33 +2,40 @@ package com.model.dao;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
 
-public class ManagerDaoMySQL implements RequestDao{
+public class ManagerDaoMySQL implements RequestDao {
+
+	private EntityManager em;
 	
-	public ManagerDaoMySQL(){
-		
+	public ManagerDaoMySQL() {
+
+	}
+
+	public ManagerDaoMySQL(EntityManager em) {
+		this.em = em;
 	}
 
 	@Override
-	public void insert() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Integer findById() {
+	public Object insert(Object type) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<Object> findAll() {
+	public Integer findById(Object type) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public String findName(String name) {
+	public List<?> findAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String findName(Object type) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -36,13 +43,13 @@ public class ManagerDaoMySQL implements RequestDao{
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
-	public void delete() {
+	public Object delete(Object type) {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
 
 }
