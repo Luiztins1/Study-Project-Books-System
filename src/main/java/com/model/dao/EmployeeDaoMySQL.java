@@ -3,6 +3,7 @@ package com.model.dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.swing.JOptionPane;
 
 import com.model.entities.Employee;
 
@@ -26,7 +27,7 @@ public class EmployeeDaoMySQL implements RequestDao {
 					.setParameter("pPassword", password)
 					.getSingleResult();
 		} catch (javax.persistence.NoResultException e) {
-			System.out.println("Não encontrado");
+			JOptionPane.showMessageDialog(null, "Login e/ou senha inválida", "Erro", JOptionPane.ERROR_MESSAGE);
 			return null;
 		}
 	}

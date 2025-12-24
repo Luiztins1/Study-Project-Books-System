@@ -1,6 +1,6 @@
 package com.application;
 
-import com.view.Screen;
+import com.model.view.Screen;
 
 
 public class Application {

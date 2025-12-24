@@ -1,11 +1,11 @@
-package com.view;
+package com.model.view;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.swing.JOptionPane;
 
 import com.controller.MenuMainOperations;
+import com.model.utils.Utils;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -78,6 +78,13 @@ public class Screen extends Application {
 			Integer password = Integer.parseInt(txLoginPassword.getText());
 			
 			controller.loginVerification(name, password);
+			
+			if(Utils.flagUtil) {
+				showMenuMain();
+			}
+			
+			txLoginName.clear();
+			txLoginPassword.clear();
 		});
 
 		btRegister.setOnAction(e -> {

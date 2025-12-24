@@ -1,4 +1,4 @@
-package com.view;
+package com.model.view;
 
 public class LoginMenu {
 	

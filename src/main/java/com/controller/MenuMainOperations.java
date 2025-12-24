@@ -1,12 +1,14 @@
 package com.controller;
 
 import javax.persistence.EntityManager;
+import javax.swing.JOptionPane;
 
 import com.model.dao.BooksDaoMySQL;
 import com.model.dao.ClientDaoMySQL;
 import com.model.dao.EmployeeDaoMySQL;
 import com.model.dao.RequestDaoFactory;
 import com.model.entities.Employee;
+import com.model.utils.Utils;
 
 public class MenuMainOperations{
 	
@@ -29,11 +31,9 @@ public class MenuMainOperations{
 		Employee emp = employeeDao.findByLogin(name, password);
 		
 		if(emp != null) {
-			System.out.println("Login realizado com sucesso!" + emp.getName());
-		}else {
-			System.out.println("Usuário ou senha inválidos!");
-		}s
-		
+			JOptionPane.showMessageDialog(null, "Bem vindo "+emp.getName()+"!", "Login - Sucesso", JOptionPane.PLAIN_MESSAGE);
+			Utils.flagUtil = true;
+		}
 		em.getTransaction().commit();
 	}
 	
