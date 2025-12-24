@@ -4,51 +4,67 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
+import com.model.entities.Employee;
 
-public class EmployeeDaoMySQL implements RequestDao{
-	
+public class EmployeeDaoMySQL implements RequestDao {
+
 	private EntityManager em;
-	
+
 	public EmployeeDaoMySQL() {
-		
+
 	}
-	
+
 	public EmployeeDaoMySQL(EntityManager em) {
 		this.em = em;
 	}
 
+	public Employee findByLogin(String name, Integer password) {
+		try {
+			String jqpl = "SELECT e FROM Employee e WHERE e.name = :pName AND e.password = :pPassword";
+			return em.createQuery(jqpl, Employee.class)
+					.setParameter("pName", name)
+					.setParameter("pPassword", password)
+					.getSingleResult();
+		} catch (javax.persistence.NoResultException e) {
+			System.out.println("Não encontrado");
+			return null;
+		}
+	}
+
 	@Override
-	public Object insert(Object type) {
+	public void insert(Object type) {
 		em.persist(type);
-		return type;
+
 	}
 
 	@Override
 	public Integer findById(Object type) {
-		return (Integer) type;
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
-	public List<?> findAll() {
+	public List findAll() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String findName(Object type) {
-		return null;
+		String name = (String) type;
+		return name;
 	}
 
 	@Override
-	public void update() {
-		
-		
-	}
-
-	@Override
-	public Object delete(Object type) {
+	public void update(Object type) {
 		// TODO Auto-generated method stub
-		return null;
+
+	}
+
+	@Override
+	public void delete(Object type) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

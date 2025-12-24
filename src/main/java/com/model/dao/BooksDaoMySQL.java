@@ -18,8 +18,9 @@ public class BooksDaoMySQL implements RequestDao{
 	}
 
 	@Override
-	public Object insert(Object type) {
-		return null;
+	public void insert(Object type) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
@@ -29,7 +30,8 @@ public class BooksDaoMySQL implements RequestDao{
 	}
 
 	@Override
-	public List<?> findAll() {
+	public List findAll() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -40,15 +42,15 @@ public class BooksDaoMySQL implements RequestDao{
 	}
 
 	@Override
-	public void update() {
+	public void update(Object type) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public Object delete(Object type) {
+	public void delete(Object type) {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 
 }

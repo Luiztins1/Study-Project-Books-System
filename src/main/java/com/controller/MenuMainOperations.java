@@ -19,18 +19,27 @@ public class MenuMainOperations{
 	public MenuMainOperations(EntityManager em){
 		this.em = em;
 		this.daoFactory = new RequestDaoFactory(this.em);
+		booksDao = new BooksDaoMySQL(this.em);
+		clientDao = new ClientDaoMySQL(this.em);
 		employeeDao = new EmployeeDaoMySQL(this.em);
 	}
 	
 	public void loginVerification(String name, Integer password) {
 		em.getTransaction().begin();
-		employeeDao.findName(new Employee(name, password));
+		Employee emp = employeeDao.findByLogin(name, password);
+		
+		if(emp != null) {
+			System.out.println("Login realizado com sucesso!" + emp.getName());
+		}else {
+			System.out.println("Usuário ou senha inválidos!");
+		}s
+		
 		em.getTransaction().commit();
 	}
 	
 	public void registerEmployee(String name, Integer password) {
 		em.getTransaction().begin();
-		employeeDao.insert(new Employee(name, password));
+		employeeDao.insert(new Employee(null, name, password));
 		em.getTransaction().commit();
 	}
 

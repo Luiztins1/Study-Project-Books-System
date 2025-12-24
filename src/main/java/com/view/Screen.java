@@ -78,7 +78,6 @@ public class Screen extends Application {
 			Integer password = Integer.parseInt(txLoginPassword.getText());
 			
 			controller.loginVerification(name, password);
-			System.out.println("Usuário identificado");
 		});
 
 		btRegister.setOnAction(e -> {
@@ -138,6 +137,15 @@ public class Screen extends Application {
 		btExit.setText("Voltar ao menu");
 
 		// Ações Botões
+		btRegister.setOnAction(e ->{
+			String name = txRegisterName.getText();
+			Integer password = Integer.parseInt(txRegisterPassword.getText());
+			
+			controller.registerEmployee(name, password);
+			System.out.println("Usuário criado com sucesso.");
+			showLoginScene();
+		});
+		
 		btExit.setOnAction(e -> {
 			showLoginScene();
 		});

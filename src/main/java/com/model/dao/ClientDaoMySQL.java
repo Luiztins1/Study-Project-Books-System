@@ -17,9 +17,9 @@ public class ClientDaoMySQL implements RequestDao{
 	}
 
 	@Override
-	public Object insert(Object type) {
+	public void insert(Object type) {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 
 	@Override
@@ -28,8 +28,9 @@ public class ClientDaoMySQL implements RequestDao{
 		return null;
 	}
 
+
 	@Override
-	public List<?> findAll() {
+	public List findAll() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -41,14 +42,15 @@ public class ClientDaoMySQL implements RequestDao{
 	}
 
 	@Override
-	public void update() {
+	public void update(Object type) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public Object delete(Object type) {
+	public void delete(Object type) {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
+
 }
