@@ -1,26 +1,41 @@
 package com.model.entities;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Objects;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
+
+@MappedSuperclass
 public class WorkingPeople implements Serializable{
 	
 	
 	private static final long serialVersionUID = 1L;
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
 	private String name;
 	private Integer password;
-	private Character[] code;
 	
 	public WorkingPeople() {
 		
 	}
 
-	public WorkingPeople(String name, Integer password, Character[] code) {
+	public WorkingPeople(Integer id, String name, Integer password) {
+		this.id = id;
 		this.name = name;
 		this.password = password;
-		this.code = code;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		id = id;
 	}
 
 	public String getName() {
@@ -39,21 +54,9 @@ public class WorkingPeople implements Serializable{
 		this.password = password;
 	}
 
-	public Character[] getCode() {
-		return code;
-	}
-
-	public void setCode(Character[] code) {
-		this.code = code;
-	}
-
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + Arrays.hashCode(code);
-		result = prime * result + Objects.hash(password);
-		return result;
+		return Objects.hash(id, name, password);
 	}
 
 	@Override
@@ -65,12 +68,16 @@ public class WorkingPeople implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		WorkingPeople other = (WorkingPeople) obj;
-		return Arrays.equals(code, other.code) && Objects.equals(password, other.password);
+		return Objects.equals(id, other.id) && Objects.equals(name, other.name)
+				&& Objects.equals(password, other.password);
 	}
 
 	@Override
 	public String toString() {
-		return "WorkingPeople [name=" + name + ", password=" + password + ", code=" + Arrays.toString(code) + "]";
+		return "WorkingPeople [Id=" + id + ", name=" + name + ", password=" + password + "]";
 	}
+
+	
+	
 
 }

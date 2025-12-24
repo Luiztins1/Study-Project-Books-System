@@ -47,7 +47,7 @@ public class Screen extends Application {
 
 		// Painel
 		loginPane.setPrefSize(400, 400);
-		loginPane.getChildren().addAll(btLogin, btRegister, txLoginName, txLoginPassword);
+		loginPane.getChildren().addAll(txLoginName, txLoginPassword, btLogin, btRegister);
 
 		stage.setScene(loginScene);
 		stage.setTitle("Porto Books - Login");
@@ -74,7 +74,11 @@ public class Screen extends Application {
 
 		// Ações Button
 		btLogin.setOnAction(e -> {
-			showMenuMain();
+			String name = txLoginName.getText();
+			Integer password = Integer.parseInt(txLoginPassword.getText());
+			
+			controller.loginVerification(name, password);
+			System.out.println("Usuário identificado");
 		});
 
 		btRegister.setOnAction(e -> {

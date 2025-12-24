@@ -19,14 +19,13 @@ public class EmployeeDaoMySQL implements RequestDao{
 
 	@Override
 	public Object insert(Object type) {
-		// TODO Auto-generated method stub
-		return null;
+		em.persist(type);
+		return type;
 	}
 
 	@Override
 	public Integer findById(Object type) {
-		// TODO Auto-generated method stub
-		return null;
+		return (Integer) type;
 	}
 
 	@Override
@@ -37,13 +36,12 @@ public class EmployeeDaoMySQL implements RequestDao{
 
 	@Override
 	public String findName(Object type) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
