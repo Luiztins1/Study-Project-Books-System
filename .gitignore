@@ -1,0 +1,17 @@
+# Maven
+target/
+
+# Arquivos de log e temporários do Windows
+Thumbs.db
+desktop.ini
+
+# IDEs (Eclipse/VS Code/IntelliJ)
+.metadata/
+.settings/
+.project
+.classpath
+bin/
+
+# Sistema e Logs
+
+*.log
