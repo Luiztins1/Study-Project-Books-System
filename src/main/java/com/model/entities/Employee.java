@@ -13,7 +13,7 @@ public class Employee extends WorkingPeople{
 		super();
 	}
 
-	public Employee(Integer id, String name, Integer password) {
+	public Employee(String name, Integer password) {
 		super(null, name, password);
 	}
 

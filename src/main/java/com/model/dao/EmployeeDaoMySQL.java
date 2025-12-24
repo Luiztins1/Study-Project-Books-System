@@ -6,8 +6,9 @@ import javax.persistence.EntityManager;
 import javax.swing.JOptionPane;
 
 import com.model.entities.Employee;
+import com.model.utils.UtilsImpl;
 
-public class EmployeeDaoMySQL implements RequestDao {
+public class EmployeeDaoMySQL implements RequestDao, UtilsImpl {
 
 	private EntityManager em;
 
@@ -22,9 +23,7 @@ public class EmployeeDaoMySQL implements RequestDao {
 	public Employee findByLogin(String name, Integer password) {
 		try {
 			String jqpl = "SELECT e FROM Employee e WHERE e.name = :pName AND e.password = :pPassword";
-			return em.createQuery(jqpl, Employee.class)
-					.setParameter("pName", name)
-					.setParameter("pPassword", password)
+			return em.createQuery(jqpl, Employee.class).setParameter("pName", name).setParameter("pPassword", password)
 					.getSingleResult();
 		} catch (javax.persistence.NoResultException e) {
 			JOptionPane.showMessageDialog(null, "Login e/ou senha inválida", "Erro", JOptionPane.ERROR_MESSAGE);
@@ -66,6 +65,15 @@ public class EmployeeDaoMySQL implements RequestDao {
 	public void delete(Object type) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public boolean existName(String name) {
+		String jqpl = "SELECT COUNT(e) FROM Employee e WHERE e.name = :pName";
+
+		Long count = em.createQuery(jqpl, Long.class).setParameter("pName", name).getSingleResult();
+
+		return count > 0;
 	}
 
 }

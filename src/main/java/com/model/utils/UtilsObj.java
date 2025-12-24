@@ -1,6 +1,6 @@
 package com.model.utils;
 
-public class Utils {
+public class UtilsObj {
 	
 	public static Boolean flagUtil = false;
 
