@@ -3,6 +3,7 @@ package com.model.entities;
 import java.io.Serializable;
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,7 +18,11 @@ public class WorkingPeople implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
+	@Column(length = 50)
 	private String name;
+	
+	@Column(length = 10)
 	private Integer password;
 	
 	public WorkingPeople() {

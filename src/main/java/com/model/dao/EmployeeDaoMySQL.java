@@ -39,31 +39,31 @@ public class EmployeeDaoMySQL implements RequestDao, UtilsImpl {
 
 	@Override
 	public Integer findById(Object type) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public List findAll() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String findName(Object type) {
 		String name = (String) type;
+		em.find(Employee.class, name);
 		return name;
 	}
 
 	@Override
 	public void update(Object type) {
-		// TODO Auto-generated method stub
+		em.merge(type);
 
 	}
 
 	@Override
 	public void delete(Object type) {
-		// TODO Auto-generated method stub
+		em.find(Employee.class, type);
+		em.remove(type);
 
 	}
 

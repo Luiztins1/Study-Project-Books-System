@@ -1,8 +1,10 @@
 package com.model.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,11 +19,22 @@ public class Books implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
+	@Column(length = 50)
 	private String name;
+	
+	@Column(length = 50)
 	private String author;
+	
+	@Column(length = 20)
 	private String country;
-	private Integer age;
+	
+	@Column(length = 10)
+	private Date age;
+	
+	@Column(length = 255)
 	private Double price;
+	
+	@Column(length = 255)
 	private Double priceMarket;
 	// private PriceCategory priceCategory;
 
@@ -29,7 +42,7 @@ public class Books implements Serializable {
 
 	}
 
-	public Books(Integer id, String name, String author, String country, Integer age, Double price,
+	public Books(Integer id, String name, String author, String country, Date age, Double price,
 			double priceMarket) {
 		this.id = id;
 		this.name = name;
@@ -72,11 +85,11 @@ public class Books implements Serializable {
 		this.country = country;
 	}
 
-	public Integer getAge() {
+	public Date getAge() {
 		return age;
 	}
 
-	public void setAge(Integer age) {
+	public void setAge(Date age) {
 		this.age = age;
 	}
 

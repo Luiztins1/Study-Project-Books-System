@@ -1,8 +1,9 @@
-package com.model.view;
+package com.view;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.swing.JOptionPane;
 
 import com.controller.MenuMainOperations;
 import com.model.utils.UtilsObj;
@@ -50,8 +51,9 @@ public class Screen extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		this.stage = primaryStage;
 		initComponents();
+		this.stage = primaryStage;
+
 		showLoginScene();
 	}
 
@@ -72,6 +74,8 @@ public class Screen extends Application {
 		btLogin = new Button();
 		btRegisterLogin = new Button();
 
+		loginPane.getChildren().addAll(txLoginName, txLoginPassword, btLogin, btRegisterLogin);
+
 		// MenuMain
 		menuMain = new AnchorPane();
 		menuScene = new Scene(menuMain);
@@ -83,6 +87,7 @@ public class Screen extends Application {
 		btExit = new Button();
 		txRegisterName = new TextField();
 		txRegisterPassword = new TextField();
+		menuRegister.getChildren().addAll(btRegisterMenu, btExit, txRegisterName, txRegisterPassword);
 
 	}
 
@@ -91,7 +96,6 @@ public class Screen extends Application {
 
 		// Painel
 		loginPane.setPrefSize(400, 400);
-		loginPane.getChildren().addAll(txLoginName, txLoginPassword, btLogin, btRegisterLogin);
 
 		stage.setScene(loginScene);
 		stage.setTitle("Porto Books - Login");
@@ -118,17 +122,32 @@ public class Screen extends Application {
 
 		// Ações Button
 		btLogin.setOnAction(e -> {
-			String name = txLoginName.getText();
-			Integer password = Integer.parseInt(txLoginPassword.getText());
+			try {
+				String name = txLoginName.getText();
+				String password = txLoginPassword.getText();
 
-			controller.loginVerification(name, password);
+				if(name.length() > 50){
+					JOptionPane.showMessageDialog(null, "Login e/ou senha inválidos.", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+				
+				if(password.length() > 10) {
+					JOptionPane.showMessageDialog(null, "Login e/ou senha inválidos.", "Error", JOptionPane.ERROR_MESSAGE);	
+				}
+				
+				//Realiza a verificação de login e converter a senha em Integer.
+				controller.loginVerification(name, Integer.parseInt(password));
 
-			if (UtilsObj.flagUtil) {
-				showMenuMain();
+				if (UtilsObj.flagUtil) {
+					showMenuMain();
+				}
+
+			} catch (java.lang.NumberFormatException e2) {
+				JOptionPane.showMessageDialog(null, "Login e/ou senha inválidos.", "Error", JOptionPane.ERROR_MESSAGE);
+			} finally {
+				txLoginName.clear();
+				txLoginPassword.clear();
 			}
 
-			txLoginName.clear();
-			txLoginPassword.clear();
 		});
 
 		btRegisterLogin.setOnAction(e -> {
@@ -150,7 +169,6 @@ public class Screen extends Application {
 	public void showMenuRegister() {
 
 		menuRegister.setPrefSize(400, 400);
-		menuRegister.getChildren().addAll(btRegisterMenu, btExit, txRegisterName, txRegisterPassword);
 
 		stage.setScene(registerScene);
 		stage.setResizable(false);
@@ -179,16 +197,34 @@ public class Screen extends Application {
 
 		// Ações Botões
 		btRegisterMenu.setOnAction(e -> {
-			String name = txRegisterName.getText();
-			Integer password = Integer.parseInt(txRegisterPassword.getText());
+			try {
+				String name = txRegisterName.getText();
+				String password = txRegisterPassword.getText();
+				
+				if(name.length() > 50){
+					JOptionPane.showMessageDialog(null, "Login e/ou senha inválidos.", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+				
+				if(password.length() > 10) {
+					JOptionPane.showMessageDialog(null, "Login e/ou senha inválidos.", "Error", JOptionPane.ERROR_MESSAGE);	
+				}
 
-			controller.registerEmployee(name, password);
-			showLoginScene();
+				controller.registerEmployee(name, Integer.parseInt(password));
+				showLoginScene();
+				
+			} catch (java.lang.NumberFormatException e2) {
+				JOptionPane.showMessageDialog(null, "Login e/ou senha inválidos.", "Error", JOptionPane.ERROR_MESSAGE);
+			} finally {
+				txRegisterName.clear();
+				txRegisterPassword.clear();
+			}
+
 		});
 
 		btExit.setOnAction(e -> {
 			showLoginScene();
 		});
+
 	}
 
 	@Override
