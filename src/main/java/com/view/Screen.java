@@ -34,6 +34,8 @@ public class Screen extends Application {
 	private TextField txRegisterName;
 	private TextField txRegisterPassword;
 
+	private TextField txSearchBookName;
+
 	// Buttons
 	private Button btLogin;
 	private Button btRegisterLogin;
@@ -49,95 +51,95 @@ public class Screen extends Application {
 	private EntityManager em;
 	private MenuMainOperations controller;
 
+	private boolean flag = true;
+
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		initComponents();
 		this.stage = primaryStage;
 
+		// Initialize
+		initComponentsLoginScene();
+		initLayoutLoginScene();
+		initListenerLoginScene();
 		showLoginScene();
+
 	}
 
-	// Método responsável por iniciar a conexão ao banco de dados com JavafX.
 	public void init() {
 		this.emf = Persistence.createEntityManagerFactory("books-system");
 		this.em = emf.createEntityManager();
 		this.controller = new MenuMainOperations(this.em);
 	}
 
-	public void initComponents() {
-
-		// LoginMenu
-		loginPane = new AnchorPane();
-		loginScene = new Scene(loginPane);
-		txLoginName = new TextField();
-		txLoginPassword = new TextField();
-		btLogin = new Button();
-		btRegisterLogin = new Button();
-
-		loginPane.getChildren().addAll(txLoginName, txLoginPassword, btLogin, btRegisterLogin);
-
-		// MenuMain
-		menuMain = new AnchorPane();
-		menuScene = new Scene(menuMain);
-
-		// MenuRegister
-		menuRegister = new AnchorPane();
-		registerScene = new Scene(menuRegister);
-		btRegisterMenu = new Button();
-		btExit = new Button();
-		txRegisterName = new TextField();
-		txRegisterPassword = new TextField();
-		menuRegister.getChildren().addAll(btRegisterMenu, btExit, txRegisterName, txRegisterPassword);
-
-	}
-
-	// Método de para tela de login.
 	public void showLoginScene() {
-
-		// Painel
-		loginPane.setPrefSize(400, 400);
-
 		stage.setScene(loginScene);
 		stage.setTitle("Porto Books - Login");
 		stage.setResizable(false);
 		stage.show();
 
+	}
+
+	public void initComponentsLoginScene() {
+
+		loginPane = new AnchorPane();
+		loginScene = new Scene(loginPane);
+
+		txLoginName = new TextField();
+		txLoginPassword = new TextField();
+
+		btLogin = new Button();
+		btRegisterLogin = new Button();
+
+		loginPane.getChildren().addAll(txLoginName, txLoginPassword, btLogin, btRegisterLogin);
+
+	}
+
+	public void initLayoutLoginScene() {
+		// Painel
+		loginPane.setPrefSize(400, 400);
+
 		// Campos
-		txLoginName.setLayoutX((loginPane.getWidth() - txLoginName.getWidth()) / 2);
+		txLoginName.setPrefWidth(200);
+		txLoginName.setLayoutX((400 - 200) / 2);
 		txLoginName.setLayoutY(150);
 		txLoginName.setPromptText("Digite seu nome");
 
-		txLoginPassword.setPromptText("Digite sua senha");
-		txLoginPassword.setLayoutX((loginPane.getWidth() - txLoginPassword.getWidth()) / 2);
+		txLoginPassword.setPrefWidth(200);
+		txLoginPassword.setLayoutX((400 - 200) / 2);
 		txLoginPassword.setLayoutY(190);
+		txLoginPassword.setPromptText("Digite sua senha");
 
 		// Botões
-		btLogin.setLayoutX((loginPane.getWidth() - btLogin.getWidth()) / 2);
-		btLogin.setLayoutY(270);
+		btLogin.setPrefWidth(100);
+		btLogin.setLayoutX((400 - 100) / 2);
+		btLogin.setLayoutY(250);
 		btLogin.setText("Login");
 
+		btRegisterLogin.setPrefWidth(100);
+		btRegisterLogin.setLayoutX((400 - 100) / 2);
+		btRegisterLogin.setLayoutY(290);
 		btRegisterLogin.setText("Registrar");
-		btRegisterLogin.setLayoutX((loginPane.getWidth() - btRegisterLogin.getWidth()) / 2);
-		btRegisterLogin.setLayoutY(310);
 
-		// Ações Button
+	}
+
+	public void initListenerLoginScene() {
 		btLogin.setOnAction(e -> {
 			try {
 				String name = txLoginName.getText();
 				String password = txLoginPassword.getText();
 
-				if(name.length() > 50){
-					JOptionPane.showMessageDialog(null, "Login e/ou senha inválidos.", "Error", JOptionPane.ERROR_MESSAGE);
+				if (name.length() > 25 || password.length() > 4) {
+					JOptionPane.showMessageDialog(null, "Login e/ou senha inválidos.", "Error",
+							JOptionPane.ERROR_MESSAGE);
 				}
-				
-				if(password.length() > 10) {
-					JOptionPane.showMessageDialog(null, "Login e/ou senha inválidos.", "Error", JOptionPane.ERROR_MESSAGE);	
-				}
-				
-				//Realiza a verificação de login e converter a senha em Integer.
+
 				controller.loginVerification(name, Integer.parseInt(password));
 
 				if (UtilsObj.flagUtil) {
+					UtilsObj.flagUtil = false;
+					stage.close();
+					initComponentsMenuMain();
+					initLayoutMenuMain();
 					showMenuMain();
 				}
 
@@ -147,71 +149,91 @@ public class Screen extends Application {
 				txLoginName.clear();
 				txLoginPassword.clear();
 			}
-
 		});
 
-		btRegisterLogin.setOnAction(e -> {
-			showMenuRegister();
-		});
+		try {
+			btRegisterLogin.setOnAction(e -> {
+				stage.close();
+				initComponentMenuRegister();
+				initLayoutMenuRegister();
+				initListenerMenuRegister();
+				showMenuRegister();
+			});
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			txLoginName.clear();
+			txLoginPassword.clear();
+		}
 
 	}
 
-	// Método para o menu principal.
-	public void showMenuMain() {
-
-		menuMain.setPrefSize(400, 400);
-
-		stage.setScene(menuScene);
-		stage.show();
-	}
-
-	// Método para o menu de registro de usuário.
 	public void showMenuRegister() {
-
-		menuRegister.setPrefSize(400, 400);
-
 		stage.setScene(registerScene);
+		stage.setTitle("Porto Books - Registrar");
 		stage.setResizable(false);
 		stage.show();
 
+	}
+
+	public void initComponentMenuRegister() {
+		menuRegister = new AnchorPane();
+		registerScene = new Scene(menuRegister);
+		btRegisterMenu = new Button();
+		btExit = new Button();
+		txRegisterName = new TextField();
+		txRegisterPassword = new TextField();
+
+		menuRegister.getChildren().addAll(btRegisterMenu, btExit, txRegisterName, txRegisterPassword);
+
+	}
+
+	public void initLayoutMenuRegister() {
+		menuRegister.setPrefSize(400, 400);
+
 		// Campos
-		txRegisterName.setLayoutX((menuRegister.getWidth() - txRegisterName.getWidth()) / 2);
+		txRegisterName.setPrefWidth(200);
+		txRegisterName.setLayoutX((400 - 200) / 2);
 		txRegisterName.setLayoutY(150);
-
-		txRegisterPassword.setLayoutX((menuRegister.getWidth() - txRegisterPassword.getWidth()) / 2);
-		txRegisterPassword.setLayoutY(190);
-
 		txRegisterName.setPromptText("Digite seu nome");
+
+		txRegisterPassword.setPrefWidth(200);
+		txRegisterPassword.setLayoutX((400 - 200) / 2);
+		txRegisterPassword.setLayoutY(190);
 		txRegisterPassword.setPromptText("Digite uma senha");
 
 		// Botões
-		btRegisterMenu.setPrefSize(150, 0);
-		btRegisterMenu.setLayoutX((menuRegister.getWidth() - btRegisterMenu.getWidth()) / 2);
+		btRegisterMenu.setPrefWidth(100);
+		btRegisterMenu.setLayoutX((400 - 100) / 2);
 		btRegisterMenu.setLayoutY(270);
 		btRegisterMenu.setText("Criar conta");
 
-		btExit.setPrefSize(150, 0);
-		btExit.setLayoutX((menuRegister.getWidth() - btExit.getWidth()) / 2);
+		btExit.setPrefWidth(100);
+		btExit.setLayoutX((400 - 100) / 2);
 		btExit.setLayoutY(310);
 		btExit.setText("Voltar ao menu");
 
-		// Ações Botões
+	}
+
+	public void initListenerMenuRegister() {
 		btRegisterMenu.setOnAction(e -> {
 			try {
 				String name = txRegisterName.getText();
 				String password = txRegisterPassword.getText();
-				
-				if(name.length() > 50){
-					JOptionPane.showMessageDialog(null, "Login e/ou senha inválidos.", "Error", JOptionPane.ERROR_MESSAGE);
-				}
-				
-				if(password.length() > 10) {
-					JOptionPane.showMessageDialog(null, "Login e/ou senha inválidos.", "Error", JOptionPane.ERROR_MESSAGE);	
+
+				if (name.length() > 25 || password.length() > 4) {
+					JOptionPane.showMessageDialog(null, "Login e/ou senha inválidos.", "Error",
+							JOptionPane.ERROR_MESSAGE);
 				}
 
 				controller.registerEmployee(name, Integer.parseInt(password));
-				showLoginScene();
 				
+				if (UtilsObj.flagUtil) {
+					UtilsObj.flagUtil = false;
+					stage.close();
+					showLoginScene();
+				}
+
 			} catch (java.lang.NumberFormatException e2) {
 				JOptionPane.showMessageDialog(null, "Login e/ou senha inválidos.", "Error", JOptionPane.ERROR_MESSAGE);
 			} finally {
@@ -221,10 +243,36 @@ public class Screen extends Application {
 
 		});
 
-		btExit.setOnAction(e -> {
-			showLoginScene();
-		});
+		try {
+			btExit.setOnAction(e -> {
+				stage.close();
+				showLoginScene();
+			});
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			txRegisterName.clear();
+			txRegisterPassword.clear();
+		}
 
+	}
+
+	public void initComponentsMenuMain() {
+		menuMain = new AnchorPane();
+		menuScene = new Scene(menuMain);
+
+	}
+
+	public void initLayoutMenuMain() {
+		menuMain.setPrefSize(600, 600);
+	}
+
+	// Método para o menu principal.
+	public void showMenuMain() {
+		stage.setScene(menuScene);
+		stage.setTitle("Porto Books - Menu");
+		stage.setResizable(false);
+		stage.show();
 	}
 
 	@Override

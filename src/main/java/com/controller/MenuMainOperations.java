@@ -16,6 +16,7 @@ public class MenuMainOperations {
 	private BooksDaoMySQL booksDao;
 	private ClientDaoMySQL clientDao;
 	private EmployeeDaoMySQL employeeDao;
+	private boolean flag = false;
 	private EntityManager em;
 
 	public MenuMainOperations(EntityManager em) {
@@ -34,23 +35,24 @@ public class MenuMainOperations {
 		if (emp != null) {
 			em.getTransaction().begin();
 			employeeDao.update(emp);
+			UtilsObj.flagUtil = true;
 			em.getTransaction().commit();
 			JOptionPane.showMessageDialog(null, "Bem vindo " + emp.getName() + "!", "Login - Sucesso",
 					JOptionPane.PLAIN_MESSAGE);
-			UtilsObj.flagUtil = true;
 		}
 
 	}
 
 	public void registerEmployee(String name, Integer password) {
 		if (employeeDao.existName(name)) {
-			JOptionPane.showMessageDialog(null, "Usuário cadastrado", "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Usuário já possui cadastrado", "Error", JOptionPane.ERROR_MESSAGE);
 		} else {
 			try {
 				em.getTransaction().begin();
 				JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!", "Cadastrado",
 						JOptionPane.PLAIN_MESSAGE);
 				employeeDao.insert(new Employee(name, password));
+				UtilsObj.flagUtil = true;
 				em.getTransaction().commit();
 
 			} catch (Exception e) {

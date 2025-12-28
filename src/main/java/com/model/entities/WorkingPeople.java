@@ -19,10 +19,10 @@ public class WorkingPeople implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@Column(length = 50)
+	@Column(length = 25)
 	private String name;
 	
-	@Column(length = 10)
+	@Column(length = 4)
 	private Integer password;
 	
 	public WorkingPeople() {
