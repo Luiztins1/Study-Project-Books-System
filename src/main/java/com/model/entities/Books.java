@@ -36,7 +36,6 @@ public class Books implements Serializable {
 	
 	@Column(length = 255)
 	private Double priceMarket;
-	// private PriceCategory priceCategory;
 
 	public Books() {
 
