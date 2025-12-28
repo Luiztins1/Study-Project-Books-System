@@ -38,7 +38,7 @@ public class MenuMain extends Application {
 
 	private MenuBar menuBar;
 
-	private MenuItem searchBook;
+	private MenuItem registerBook;
 	private MenuItem deleteBook;
 	private MenuItem registerUser;
 
@@ -63,6 +63,7 @@ public class MenuMain extends Application {
 		this.stage = primaryStage;
 		initComponentsMenuMain();
 		initLayoutMenuMain();
+		initListenersMenuMain();
 		showMenuMain();
 
 	}
@@ -90,11 +91,11 @@ public class MenuMain extends Application {
 		optionMenu = new Menu("Opções");
 		helpMenu = new Menu("Ajuda");
 
-		searchBook = new MenuItem("Pesquisar Livro");
+		registerBook = new MenuItem("Registrar Livro");
 		deleteBook = new MenuItem("Deletar Livro");
 		registerUser = new MenuItem("Registrar Usuário");
 
-		fileMenu.getItems().addAll(searchBook, deleteBook, registerUser);
+		fileMenu.getItems().addAll(registerBook, deleteBook, registerUser);
 
 		txSearchBookName = new TextField();
 
@@ -131,6 +132,18 @@ public class MenuMain extends Application {
 		tbView.setPrefWidth(600);
 		tbView.setLayoutX(50);
 		tbView.setLayoutY(100);
+	}
+	
+	public void initListenersMenuMain() {
+		registerBook.setOnAction(e ->{
+			try {
+				new MenuBarRegisterBook().start(new Stage());
+				stage.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+				
+			}
+		});
 	}
 
 }
