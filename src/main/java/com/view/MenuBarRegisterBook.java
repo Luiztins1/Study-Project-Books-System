@@ -1,5 +1,11 @@
 package com.view;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
+import javax.swing.JOptionPane;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -8,6 +14,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class MenuBarRegisterBook extends Application {
+
+	private DateTimeFormatter fnt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
 	// AnchorPane
 	private AnchorPane paneMenuBar;
@@ -79,7 +87,7 @@ public class MenuBarRegisterBook extends Application {
 		txAgeBook.setPrefWidth(200);
 		txAgeBook.setLayoutX((400 - 200) / 2);
 		txAgeBook.setLayoutY(140);
-		txAgeBook.setPromptText("Digite o ano de publicação");
+		txAgeBook.setPromptText("Digite o ano de publicação (dd/MM/yyyy)");
 
 		txPriceBook.setPrefWidth(200);
 		txPriceBook.setLayoutX((400 - 200) / 2);
@@ -101,23 +109,59 @@ public class MenuBarRegisterBook extends Application {
 	}
 
 	public void initListenersMenuBarRegisterBook() {
-		try {
-			
-		} catch (Exception e) {
-			
-		}
-		registerBook.setOnAction(e ->{
-			
+
+		registerBook.setOnAction(e -> {
+
+			try {
+				String nameBook = txNameBook.getText();
+				String nameAuthor = txAuthorBook.getText();
+				String country = txCountryBook.getText();
+				String ageBook = txAgeBook.getText();
+				String priceBook = txPriceBook.getText();
+				String priceMarketBook = txNamePriceMarketBook.getText();
+
+				if (nameBook.isEmpty() || nameAuthor.isEmpty() || country.isEmpty() || ageBook.isEmpty()
+						|| priceBook.isEmpty() || priceMarketBook.isEmpty()) {
+
+					JOptionPane.showMessageDialog(null, "Preencha os campos corretamente.", "Error",
+							JOptionPane.PLAIN_MESSAGE);
+				} else {
+					LoginMenu.getController().registerBook(nameBook, nameAuthor, country, LocalDate.parse(ageBook, fnt),
+							Double.valueOf(priceBook), Double.valueOf(priceMarketBook));
+					
+				}
+				
+				try {
+					new MenuMain().start(new Stage());
+					stage.close();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
+			} catch (NumberFormatException ex) {
+				JOptionPane.showMessageDialog(null, "Por favor, insira valores numéricos válidos nos campos de preço.");
+			} catch (DateTimeParseException ex) {
+				JOptionPane.showMessageDialog(null, "Data inválida. Use o formato correto (dd/MM/yyyy).");
+			} finally {
+				txNameBook.clear();
+				txAuthorBook.clear();
+				txCountryBook.clear();
+				txAgeBook.clear();
+				txPriceBook.clear();
+				txNamePriceMarketBook.clear();
+			}
+
 		});
-		
-		backMenu.setOnAction(e ->{
+
+		backMenu.setOnAction(e -> {
 			try {
 				new MenuMain().start(new Stage());
 				stage.close();
 			} catch (Exception e2) {
 				e2.printStackTrace();
 			}
-			
+
 		});
 	}
 

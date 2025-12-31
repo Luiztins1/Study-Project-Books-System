@@ -1,6 +1,7 @@
 package com.model.entities;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
@@ -29,7 +30,7 @@ public class Books implements Serializable {
 	private String country;
 	
 	@Column(length = 10)
-	private Date age;
+	private LocalDate age;
 	
 	@Column(length = 255)
 	private Double price;
@@ -41,7 +42,7 @@ public class Books implements Serializable {
 
 	}
 
-	public Books(Integer id, String name, String author, String country, Date age, Double price,
+	public Books(Integer id, String name, String author, String country, LocalDate age, Double price,
 			double priceMarket) {
 		this.id = id;
 		this.name = name;
@@ -84,11 +85,11 @@ public class Books implements Serializable {
 		this.country = country;
 	}
 
-	public Date getAge() {
+	public LocalDate getAge() {
 		return age;
 	}
 
-	public void setAge(Date age) {
+	public void setAge(LocalDate age) {
 		this.age = age;
 	}
 

@@ -1,6 +1,6 @@
 package com.controller;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.persistence.EntityManager;
 import javax.swing.JOptionPane;
@@ -9,6 +9,7 @@ import com.model.dao.BooksDaoMySQL;
 import com.model.dao.ClientDaoMySQL;
 import com.model.dao.EmployeeDaoMySQL;
 import com.model.dao.RequestDaoFactory;
+import com.model.entities.Books;
 import com.model.entities.Employee;
 import com.model.utils.UtilsObj;
 
@@ -67,7 +68,19 @@ public class MenuMainOperations {
 
 	}
 	
-	public void registerBook(String name, String author, String country, Date age,  Double price, Double priceMarket) {
+	public void registerBook(String name, String author, String country, LocalDate age,  Double price, Double priceMarket) {
+		try {
+			em.getTransaction().begin();
+			booksDao.insert(new Books(null, name, author, country, age, price, priceMarket));
+			JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!", "Cadastrado",
+					JOptionPane.PLAIN_MESSAGE);
+			em.getTransaction().commit();
+		} catch (Exception e) {
+			em.getTransaction().rollback();
+			JOptionPane.showMessageDialog(null, "Erro ao salvar " + e.getMessage(), "Error",
+					JOptionPane.ERROR_MESSAGE);
+		}
+		
 		
 		
 	}
