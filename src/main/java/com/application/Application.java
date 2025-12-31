@@ -1,12 +1,12 @@
 package com.application;
 
-import com.view.MenuBarRegisterBook;
-
+import com.view.LoginMenu;
 
 public class Application {
 
 	public static void main(String[] args) {
-		javafx.application.Application.launch(MenuBarRegisterBook.class, args);
+
+		javafx.application.Application.launch(LoginMenu.class, args);
 	}
 
 }

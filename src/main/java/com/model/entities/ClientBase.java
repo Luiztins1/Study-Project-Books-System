@@ -38,9 +38,13 @@ public class ClientBase implements Serializable{
 		this.email = email;
 		this.telephoneNumber = telephoneNumber;
 	}
-	
-	public Date inactiveClient(Date date) {
-		return null;
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -63,8 +67,16 @@ public class ClientBase implements Serializable{
 		return cpf;
 	}
 
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
+
 	public Date getDateBirthday() {
 		return dateBirthday;
+	}
+
+	public void setDateBirthday(Date dateBirthday) {
+		this.dateBirthday = dateBirthday;
 	}
 
 	public String getEmail() {
@@ -85,7 +97,7 @@ public class ClientBase implements Serializable{
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(cpf, email, name, surname, telephoneNumber);
+		return Objects.hash(cpf, dateBirthday, email, id, name, surname, telephoneNumber);
 	}
 
 	@Override
@@ -97,15 +109,19 @@ public class ClientBase implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		ClientBase other = (ClientBase) obj;
-		return Objects.equals(cpf, other.cpf) && Objects.equals(email, other.email) && Objects.equals(name, other.name)
-				&& Objects.equals(surname, other.surname) && Objects.equals(telephoneNumber, other.telephoneNumber);
+		return Objects.equals(cpf, other.cpf) && Objects.equals(dateBirthday, other.dateBirthday)
+				&& Objects.equals(email, other.email) && Objects.equals(id, other.id)
+				&& Objects.equals(name, other.name) && Objects.equals(surname, other.surname)
+				&& Objects.equals(telephoneNumber, other.telephoneNumber);
 	}
 
 	@Override
 	public String toString() {
-		return "ClientBase [name=" + name + ", surname=" + surname + ", cpf=" + cpf + ", dateBirthday=" + dateBirthday
-				+ ", email=" + email + ", telephoneNumber=" + telephoneNumber + "]";
+		return "ClientBase [id=" + id + ", name=" + name + ", surname=" + surname + ", cpf=" + cpf + ", dateBirthday="
+				+ dateBirthday + ", email=" + email + ", telephoneNumber=" + telephoneNumber + "]";
 	}
+	
+
 	
 	
 }

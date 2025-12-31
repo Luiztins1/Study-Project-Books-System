@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.swing.JOptionPane;
 
 import com.model.entities.Employee;
+import com.model.entities.WorkingPeople;
 import com.model.utils.UtilsImpl;
 
 public class EmployeeDaoMySQL implements RequestDao, UtilsImpl {
@@ -39,19 +40,22 @@ public class EmployeeDaoMySQL implements RequestDao, UtilsImpl {
 
 	@Override
 	public Integer findById(Object type) {
-		return null;
+		Employee emp = em.find(Employee.class, type);
+		
+		if(emp == null) {
+			System.out.println("Id não encontrado");
+			return null;
+		}
+		
+		return emp.getId();
 	}
 
 	@Override
-	public List findAll() {
-		return null;
-	}
+	public List<Employee> findAll() {
+		String jpql = "SELECT e FROM Employee e";
 
-	@Override
-	public String findName(Object type) {
-		String name = (String) type;
-		em.find(Employee.class, name);
-		return name;
+		List<Employee> empList = em.createQuery(jpql, Employee.class).getResultList();
+		return empList;
 	}
 
 	@Override
@@ -62,9 +66,11 @@ public class EmployeeDaoMySQL implements RequestDao, UtilsImpl {
 
 	@Override
 	public void delete(Object type) {
-		em.find(Employee.class, type);
-		em.remove(type);
-
+		Employee emp = em.find(Employee.class, type);
+		
+		if(emp != null) {
+			em.remove(emp);
+		}
 	}
 
 	@Override

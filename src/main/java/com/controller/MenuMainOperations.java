@@ -1,5 +1,7 @@
 package com.controller;
 
+import java.util.Date;
+
 import javax.persistence.EntityManager;
 import javax.swing.JOptionPane;
 
@@ -63,6 +65,11 @@ public class MenuMainOperations {
 
 		}
 
+	}
+	
+	public void registerBook(String name, String author, String country, Date age,  Double price, Double priceMarket) {
+		
+		
 	}
 
 }

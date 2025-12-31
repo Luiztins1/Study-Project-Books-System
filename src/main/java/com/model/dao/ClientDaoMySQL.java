@@ -4,53 +4,58 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
-public class ClientDaoMySQL implements RequestDao{
-	
+import com.model.entities.ClientBase;
+
+public class ClientDaoMySQL implements RequestDao {
+
 	private EntityManager em;
-	
+
 	public ClientDaoMySQL() {
-		
+
 	}
-	
+
 	public ClientDaoMySQL(EntityManager em) {
 		this.em = em;
 	}
 
 	@Override
 	public void insert(Object type) {
-		// TODO Auto-generated method stub
-		
+		em.persist(type);
+
 	}
 
 	@Override
 	public Integer findById(Object type) {
-		// TODO Auto-generated method stub
-		return null;
+		ClientBase client = em.find(ClientBase.class, type);
+
+		if (client == null) {
+			System.out.println("Id não encontrado;");
+			return null;
+		}
+
+		return client.getId();
 	}
 
-
 	@Override
-	public List findAll() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public List<ClientBase> findAll() {
+		String jpql = "SELECT e FROM ClientBase e";
 
-	@Override
-	public String findName(Object type) {
-		// TODO Auto-generated method stub
-		return null;
+		List<ClientBase> clients = em.createQuery(jpql, ClientBase.class).getResultList();
+		return clients;
 	}
 
 	@Override
 	public void update(Object type) {
-		// TODO Auto-generated method stub
-		
+		em.merge(type);
 	}
 
 	@Override
 	public void delete(Object type) {
-		// TODO Auto-generated method stub
+		ClientBase client = em.find(ClientBase.class, type);
 		
+		if (client != null) {
+			em.remove(type);
+		}
 	}
 
 }

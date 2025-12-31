@@ -24,10 +24,6 @@ public class MenuBooks {
 		booksDao.findById(books.getId());
 	}
 	
-	public void findBookByName(BooksDaoMySQL booksDao) {
-		booksDao.findName(booksDao);
-	}
-	
 	public void listBook(BooksDaoMySQL books) {
 		books.findAll();
 		

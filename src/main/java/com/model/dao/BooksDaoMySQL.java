@@ -1,56 +1,63 @@
 package com.model.dao;
 
+import java.awt.print.Book;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 
+import com.model.entities.Books;
 
-public class BooksDaoMySQL implements RequestDao{
+public class BooksDaoMySQL implements RequestDao {
 
 	private EntityManager em;
-	
+
 	public BooksDaoMySQL() {
-		
+
 	}
-	
+
 	public BooksDaoMySQL(EntityManager em) {
 		this.em = em;
 	}
 
 	@Override
 	public void insert(Object type) {
-		// TODO Auto-generated method stub
-		
+		em.persist(type);
+
 	}
 
 	@Override
 	public Integer findById(Object type) {
-		// TODO Auto-generated method stub
-		return null;
+		Books bkId = em.find(Books.class, type);
+		
+		if(bkId == null) {
+			System.out.println("Id não encontrado.");
+			return null;
+		}
+		return bkId.getId();
 	}
 
 	@Override
-	public List findAll() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public List<Books> findAll() {
+		String jpql = "SELECT e FROM Books e";
 
-	@Override
-	public String findName(Object type) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Books> booksAll = em.createQuery(jpql, Books.class).getResultList();
+		return booksAll;
 	}
 
 	@Override
 	public void update(Object type) {
-		// TODO Auto-generated method stub
-		
+		em.merge(type);
+
 	}
 
 	@Override
 	public void delete(Object type) {
-		// TODO Auto-generated method stub
+		Books bkId = em.find(Books.class, type);
 		
+		if(bkId != null) {
+			em.remove(type);
+		}
+
 	}
 
 }

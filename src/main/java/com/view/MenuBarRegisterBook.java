@@ -101,8 +101,13 @@ public class MenuBarRegisterBook extends Application {
 	}
 
 	public void initListenersMenuBarRegisterBook() {
+		try {
+			
+		} catch (Exception e) {
+			
+		}
 		registerBook.setOnAction(e ->{
-			System.out.println("Piw");
+			
 		});
 		
 		backMenu.setOnAction(e ->{

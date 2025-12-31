@@ -19,10 +19,6 @@ public class MenuClient {
 		clientDao.findById(client);
 	}
 	
-	public void findByName(ClientDaoMySQL clientDao) {
-		clientDao.findName(client);
-	}
-	
 	public void deleteClient(ClientDaoMySQL clientDao) {
 		clientDao.delete(client);
 	}
