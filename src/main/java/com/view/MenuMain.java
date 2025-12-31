@@ -1,7 +1,10 @@
 package com.view;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.JOptionPane;
 
 import com.model.entities.Books;
 
@@ -10,6 +13,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -19,12 +23,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class MenuMain extends Application {
 
 	// Tables
 	private TableView<Books> tbView;
+	private TableColumn<Books, Integer> bookId;
 	private TableColumn<Books, String> bookName;
 	private TableColumn<Books, String> authorBook;
 	private TableColumn<Books, String> country;
@@ -54,9 +60,11 @@ public class MenuMain extends Application {
 	// TextField
 	private TextField txSearchBookName;
 
+	// Text
+	private Text portoBooks;
+
 	// Buttons
-	private Button btDeleteBook;
-	private Button btRegisterBook;
+	private Button btSearchBook;
 
 	// Stage
 	Stage stage;
@@ -68,7 +76,6 @@ public class MenuMain extends Application {
 		initLayoutMenuMain();
 		initListenersMenuMain();
 		showMenuMain();
-		 initItensTable();
 
 	}
 
@@ -77,6 +84,8 @@ public class MenuMain extends Application {
 		stage.setTitle("Porto Books - Menu");
 		stage.setResizable(false);
 		stage.show();
+
+		menuMain.requestFocus();
 
 	}
 
@@ -103,12 +112,14 @@ public class MenuMain extends Application {
 
 		txSearchBookName = new TextField();
 
-		btDeleteBook = new Button();
-		btRegisterBook = new Button();
+		portoBooks = new Text("Porto Books");
+
+		btSearchBook = new Button("Pesquisar");
 
 		tbView = new TableView<Books>();
 		tbView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
+		bookId = new TableColumn<Books, Integer>("Id");
 		bookName = new TableColumn<Books, String>("Livro");
 		authorBook = new TableColumn<Books, String>("Autor");
 		country = new TableColumn<Books, String>("Pais");
@@ -116,6 +127,7 @@ public class MenuMain extends Application {
 		price = new TableColumn<Books, Double>("Preço");
 		priceMarket = new TableColumn<Books, Double>("Preço de Mercado");
 
+		bookId.setCellValueFactory(new PropertyValueFactory<Books, Integer>("id"));
 		bookName.setCellValueFactory(new PropertyValueFactory<Books, String>("name"));
 		authorBook.setCellValueFactory(new PropertyValueFactory<Books, String>("author"));
 		country.setCellValueFactory(new PropertyValueFactory<Books, String>("country"));
@@ -123,41 +135,89 @@ public class MenuMain extends Application {
 		price.setCellValueFactory(new PropertyValueFactory<Books, Double>("price"));
 		priceMarket.setCellValueFactory(new PropertyValueFactory<Books, Double>("priceMarket"));
 
-		tbView.getColumns().addAll(bookName, authorBook, country, age, price, priceMarket);
+		tbView.getColumns().addAll(bookId, bookName, authorBook, country, age, price, priceMarket);
 
 		menuBar.getMenus().addAll(fileMenu, optionMenu, helpMenu);
 
-		menuMain.getChildren().addAll(vbox, tbView);
+		menuMain.getChildren().addAll(vbox, tbView, txSearchBookName, btSearchBook, portoBooks);
 
 	}
 
-	
 	public void initLayoutMenuMain() {
 		tbView.setPrefWidth(600);
 		tbView.setLayoutX(50);
 		tbView.setLayoutY(100);
+
+		txSearchBookName.setPrefWidth(200);
+		txSearchBookName.setLayoutX(450);
+		txSearchBookName.setLayoutY(60);
+		txSearchBookName.setPromptText("Pesquisar livro (nome ou ID)");
+
+		portoBooks.setLayoutX(50);
+		portoBooks.setLayoutY(80);
+
+		btSearchBook.setPrefWidth(80);
+		btSearchBook.setLayoutX(350);
+		btSearchBook.setLayoutY(60);
 	}
-	
+
 	public void initListenersMenuMain() {
-		registerBook.setOnAction(e ->{
+		registerBook.setOnAction(e -> {
 			try {
 				new MenuBarRegisterBook().start(new Stage());
 				stage.close();
 			} catch (Exception e2) {
 				e2.printStackTrace();
-				
+
 			}
 		});
+
+		if (txSearchBookName.getText() == null || txSearchBookName.getText().trim().isEmpty()) {
+			tbView.setPlaceholder(new Label("Faça um pesquisa"));
+		}
+
+		btSearchBook.setOnAction(e -> {
+			String search = txSearchBookName.getText().trim();
+			List<Books> bList = new ArrayList<>();
+
+			if (search.isEmpty()) {
+				JOptionPane.showMessageDialog(null, "Pesquisa inválida!", "Erro", JOptionPane.WARNING_MESSAGE);
+				txSearchBookName.clear();
+				return;
+			}
+
+			if (search.matches("\\d+")) {
+				Integer id = Integer.parseInt(search);
+				Books booksId = LoginMenu.getController().booksDao.findById(id);
+
+				bList.add(booksId);
+
+				if (booksId != null) {
+					listItens.setAll(bList);
+				} else {
+					listItens.clear();
+				}
+
+				txSearchBookName.clear();
+
+			} else {
+				List<Books> searchBook = LoginMenu.getController().booksDao.searchBookName(search);
+				listItens.setAll(searchBook);
+			}
+
+			tbView.setItems(listItens);
+
+		});
 	}
-	
+
 	public void initItensTable() {
 		listItens.clear();
 		List<Books> bkList = LoginMenu.getController().addItensInViewTable();
-		
+
 		listItens.setAll(bkList);
-		
+
 		tbView.setItems(listItens);
-		
+
 	}
 
 }

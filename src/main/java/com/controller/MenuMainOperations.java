@@ -17,7 +17,7 @@ import com.model.utils.UtilsObj;
 public class MenuMainOperations {
 
 	private RequestDaoFactory daoFactory;
-	private BooksDaoMySQL booksDao;
+	public BooksDaoMySQL booksDao;
 	private ClientDaoMySQL clientDao;
 	private EmployeeDaoMySQL employeeDao;
 	private boolean flag = false;
@@ -84,7 +84,7 @@ public class MenuMainOperations {
 
 	}
 	
-	public List addItensInViewTable() {
+	public List<Books> addItensInViewTable() {
 		List<Books> bkList = booksDao.findAll();
 		return bkList;
 	}
