@@ -1,15 +1,16 @@
 package com.model.entities;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 
-@Entity
+@MappedSuperclass
 public class ClientBase implements Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -21,7 +22,7 @@ public class ClientBase implements Serializable{
 	private String name;
 	private String surname;
 	private String cpf;
-	private Date dateBirthday;
+	private LocalDate dateBirthday;
 	private String email;
 	private String telephoneNumber; 
 	
@@ -29,7 +30,7 @@ public class ClientBase implements Serializable{
 		
 	}
 
-	public ClientBase(String name, String surname, String cpf, Date dateBirthday, String email,
+	public ClientBase(String name, String surname, String cpf, LocalDate dateBirthday, String email,
 			String telephoneNumber) {
 		this.name = name;
 		this.surname = surname;
@@ -71,11 +72,11 @@ public class ClientBase implements Serializable{
 		this.cpf = cpf;
 	}
 
-	public Date getDateBirthday() {
+	public LocalDate getDateBirthday() {
 		return dateBirthday;
 	}
 
-	public void setDateBirthday(Date dateBirthday) {
+	public void setDateBirthday(LocalDate dateBirthday) {
 		this.dateBirthday = dateBirthday;
 	}
 

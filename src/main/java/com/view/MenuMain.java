@@ -106,7 +106,7 @@ public class MenuMain extends Application {
 
 		registerBook = new MenuItem("Registrar Livro");
 		deleteBook = new MenuItem("Deletar Livro");
-		registerUser = new MenuItem("Registrar Usuário");
+		registerUser = new MenuItem("Registrar Cliente");
 
 		fileMenu.getItems().addAll(registerBook, deleteBook, registerUser);
 
