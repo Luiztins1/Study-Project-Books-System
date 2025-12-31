@@ -1,13 +1,13 @@
 package com.controller;
 
 import com.model.dao.ClientDaoMySQL;
-import com.model.entities.ClientBase;
+import com.model.entities.Clients;
 
 public class MenuClient {
 	
-	private ClientBase client;
+	private Clients client;
 	
-	public MenuClient(ClientBase client) {
+	public MenuClient(Clients client) {
 		this.client = client;
 	}
 	

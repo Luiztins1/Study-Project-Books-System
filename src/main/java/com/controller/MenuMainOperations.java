@@ -11,6 +11,7 @@ import com.model.dao.ClientDaoMySQL;
 import com.model.dao.EmployeeDaoMySQL;
 import com.model.dao.RequestDaoFactory;
 import com.model.entities.Books;
+import com.model.entities.Clients;
 import com.model.entities.Employee;
 import com.model.utils.UtilsObj;
 
@@ -82,6 +83,21 @@ public class MenuMainOperations {
 					JOptionPane.ERROR_MESSAGE);
 		}
 
+	}
+	
+	public void registerClient(String name, String surname, String cpf, LocalDate dateBirthday, String email, String telephoneNumber) {
+		try {
+			em.getTransaction().begin();
+			clientDao.insert(new Clients(name, surname, cpf, dateBirthday, email, telephoneNumber));
+			JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!", "Cadastrado",
+					JOptionPane.PLAIN_MESSAGE);
+			em.getTransaction().commit();
+			
+		} catch (Exception e) {
+			em.getTransaction().rollback();
+			JOptionPane.showMessageDialog(null, "Erro ao salvar " + e.getMessage(), "Error",
+					JOptionPane.ERROR_MESSAGE);
+		}
 	}
 	
 	public List<Books> addItensInViewTable() {

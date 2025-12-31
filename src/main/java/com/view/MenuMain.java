@@ -219,6 +219,15 @@ public class MenuMain extends Application {
 			tbView.setItems(listItens);
 
 		});
+		
+		registerUser.setOnAction(e ->{
+			try {
+				new MenuBarRegisterClient().start(new Stage());
+				stage.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		});
 	}
 
 	public void initItensTable() {

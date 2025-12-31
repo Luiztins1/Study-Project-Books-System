@@ -22,12 +22,7 @@ public class MenuBarRegisterBook extends Application {
 	private AnchorPane paneMenuBar;
 
 	// TextField
-	private TextField txNameBook;
-	private TextField txAuthorBook;
-	private TextField txCountryBook;
-	private TextField txAgeBook;
-	private TextField txPriceBook;
-	private TextField txNamePriceMarketBook;
+	private TextField txNameBook, txAuthorBook, txCountryBook, txAgeBook, txPriceBook, txNamePriceMarketBook;
 
 	// Buttons
 	private Button registerBook;

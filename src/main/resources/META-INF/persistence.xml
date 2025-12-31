@@ -18,7 +18,7 @@
 				value="org.h2.Driver" />
 
 			<property name="javax.persistence.jdbc.url"
-				value="jdbc:h2:~/porto_books_db;AUTO_SERVER=TRUE;DB_CLOSE_DELAY=-1" />
+				value="jdbc:h2:~/porto_books_db;AUTO_SERVER=TRUE" />
 
 			<property name="javax.persistence.jdbc.user" value="sa" />
 			<property name="javax.persistence.jdbc.password" value="" />

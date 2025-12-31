@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
-import com.model.entities.ClientBase;
+import com.model.entities.Clients;
 
 public class ClientDaoMySQL implements RequestDao {
 
@@ -26,7 +26,7 @@ public class ClientDaoMySQL implements RequestDao {
 
 	@Override
 	public Integer findById(Object type) {
-		ClientBase client = em.find(ClientBase.class, type);
+		Clients client = em.find(Clients.class, type);
 
 		if (client == null) {
 			System.out.println("Id não encontrado;");
@@ -37,10 +37,10 @@ public class ClientDaoMySQL implements RequestDao {
 	}
 
 	@Override
-	public List<ClientBase> findAll() {
+	public List<Clients> findAll() {
 		String jpql = "SELECT e FROM ClientBase e";
 
-		List<ClientBase> clients = em.createQuery(jpql, ClientBase.class).getResultList();
+		List<Clients> clients = em.createQuery(jpql, Clients.class).getResultList();
 		return clients;
 	}
 
@@ -51,7 +51,7 @@ public class ClientDaoMySQL implements RequestDao {
 
 	@Override
 	public void delete(Object type) {
-		ClientBase client = em.find(ClientBase.class, type);
+		Clients client = em.find(Clients.class, type);
 		
 		if (client != null) {
 			em.remove(type);
