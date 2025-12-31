@@ -1,6 +1,9 @@
 package com.view;
 
-import com.model.entities.ItensProperty;
+import java.time.LocalDate;
+import java.util.List;
+
+import com.model.entities.Books;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -21,14 +24,14 @@ import javafx.stage.Stage;
 public class MenuMain extends Application {
 
 	// Tables
-	private TableView<ItensProperty> tbView;
-	private TableColumn<ItensProperty, String> bookName;
-	private TableColumn<ItensProperty, String> authorBook;
-	private TableColumn<ItensProperty, String> country;
-	private TableColumn<ItensProperty, Integer> age;
-	private TableColumn<ItensProperty, Double> price;
-	private TableColumn<ItensProperty, Double> priceMarket;
-	private static ObservableList<ItensProperty> listItens = FXCollections.observableArrayList();
+	private TableView<Books> tbView;
+	private TableColumn<Books, String> bookName;
+	private TableColumn<Books, String> authorBook;
+	private TableColumn<Books, String> country;
+	private TableColumn<Books, LocalDate> age;
+	private TableColumn<Books, Double> price;
+	private TableColumn<Books, Double> priceMarket;
+	private static ObservableList<Books> listItens = FXCollections.observableArrayList();
 
 	// Menu
 	VBox vbox;
@@ -65,6 +68,7 @@ public class MenuMain extends Application {
 		initLayoutMenuMain();
 		initListenersMenuMain();
 		showMenuMain();
+		 initItensTable();
 
 	}
 
@@ -102,22 +106,22 @@ public class MenuMain extends Application {
 		btDeleteBook = new Button();
 		btRegisterBook = new Button();
 
-		tbView = new TableView<ItensProperty>();
+		tbView = new TableView<Books>();
 		tbView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-		bookName = new TableColumn<ItensProperty, String>("Livro");
-		authorBook = new TableColumn<ItensProperty, String>("Autor");
-		country = new TableColumn<ItensProperty, String>("Pais");
-		age = new TableColumn<ItensProperty, Integer>("Ano");
-		price = new TableColumn<ItensProperty, Double>("Preço");
-		priceMarket = new TableColumn<ItensProperty, Double>("Preço de Mercado");
+		bookName = new TableColumn<Books, String>("Livro");
+		authorBook = new TableColumn<Books, String>("Autor");
+		country = new TableColumn<Books, String>("Pais");
+		age = new TableColumn<Books, LocalDate>("Ano");
+		price = new TableColumn<Books, Double>("Preço");
+		priceMarket = new TableColumn<Books, Double>("Preço de Mercado");
 
-		bookName.setCellValueFactory(new PropertyValueFactory<ItensProperty, String>("Livro"));
-		authorBook.setCellValueFactory(new PropertyValueFactory<ItensProperty, String>("Autor"));
-		country.setCellValueFactory(new PropertyValueFactory<ItensProperty, String>("Pais"));
-		age.setCellValueFactory(new PropertyValueFactory<ItensProperty, Integer>("Ano"));
-		price.setCellValueFactory(new PropertyValueFactory<ItensProperty, Double>("Preço"));
-		priceMarket.setCellValueFactory(new PropertyValueFactory<ItensProperty, Double>("Preço de Mercado"));
+		bookName.setCellValueFactory(new PropertyValueFactory<Books, String>("name"));
+		authorBook.setCellValueFactory(new PropertyValueFactory<Books, String>("author"));
+		country.setCellValueFactory(new PropertyValueFactory<Books, String>("country"));
+		age.setCellValueFactory(new PropertyValueFactory<Books, LocalDate>("age"));
+		price.setCellValueFactory(new PropertyValueFactory<Books, Double>("price"));
+		priceMarket.setCellValueFactory(new PropertyValueFactory<Books, Double>("priceMarket"));
 
 		tbView.getColumns().addAll(bookName, authorBook, country, age, price, priceMarket);
 
@@ -144,6 +148,16 @@ public class MenuMain extends Application {
 				
 			}
 		});
+	}
+	
+	public void initItensTable() {
+		listItens.clear();
+		List<Books> bkList = LoginMenu.getController().addItensInViewTable();
+		
+		listItens.setAll(bkList);
+		
+		tbView.setItems(listItens);
+		
 	}
 
 }

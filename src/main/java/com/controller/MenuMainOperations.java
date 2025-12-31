@@ -1,6 +1,7 @@
 package com.controller;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.swing.JOptionPane;
@@ -80,9 +81,12 @@ public class MenuMainOperations {
 			JOptionPane.showMessageDialog(null, "Erro ao salvar " + e.getMessage(), "Error",
 					JOptionPane.ERROR_MESSAGE);
 		}
-		
-		
-		
+
+	}
+	
+	public List addItensInViewTable() {
+		List<Books> bkList = booksDao.findAll();
+		return bkList;
 	}
 
 }

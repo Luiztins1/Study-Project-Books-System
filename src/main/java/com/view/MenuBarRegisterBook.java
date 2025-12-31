@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 
 public class MenuBarRegisterBook extends Application {
 
+	//DateFormatter
 	private DateTimeFormatter fnt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
 	// AnchorPane
@@ -128,14 +129,13 @@ public class MenuBarRegisterBook extends Application {
 				} else {
 					LoginMenu.getController().registerBook(nameBook, nameAuthor, country, LocalDate.parse(ageBook, fnt),
 							Double.valueOf(priceBook), Double.valueOf(priceMarketBook));
-					
+
 				}
-				
+
 				try {
 					new MenuMain().start(new Stage());
 					stage.close();
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 
