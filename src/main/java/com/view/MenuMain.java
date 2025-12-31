@@ -171,6 +171,16 @@ public class MenuMain extends Application {
 
 			}
 		});
+		
+		deleteBook.setOnAction(e ->{
+			try {
+				new MenuBarDeleteBook().start(new Stage());
+				stage.close();
+			} catch (Exception e3) {
+				e3.printStackTrace();
+			}
+			
+		});
 
 		if (txSearchBookName.getText() == null || txSearchBookName.getText().trim().isEmpty()) {
 			tbView.setPlaceholder(new Label("Faça um pesquisa"));
@@ -201,10 +211,11 @@ public class MenuMain extends Application {
 				txSearchBookName.clear();
 
 			} else {
-				List<Books> searchBook = LoginMenu.getController().booksDao.searchBookName(search);
+				List<Books> searchBook = LoginMenu.getController().booksDao.searchBookName(search);	
 				listItens.setAll(searchBook);
 			}
-
+			
+			txSearchBookName.clear();
 			tbView.setItems(listItens);
 
 		});

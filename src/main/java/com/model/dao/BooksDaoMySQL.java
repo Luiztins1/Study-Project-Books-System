@@ -1,6 +1,6 @@
 package com.model.dao;
 
-import java.awt.print.Book;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -19,12 +19,18 @@ public class BooksDaoMySQL implements RequestDao {
 	public BooksDaoMySQL(EntityManager em) {
 		this.em = em;
 	}
-	
+
 	public List<Books> searchBookName(String name) {
+		
 		String jpql = "SELECT e FROM Books e WHERE e.name = :pName";
 		
-		List<Books> bkName = em.createQuery(jpql, Books.class).setParameter("pName", name).getResultList();
-		return bkName;
+		if(!name.equals(jpql)) {
+			JOptionPane.showMessageDialog(null, "Nome não encontrado", "Erro", JOptionPane.WARNING_MESSAGE);
+			return new ArrayList<>();
+		}else {
+			List<Books> bkName = em.createQuery(jpql, Books.class).setParameter("pName", name).getResultList();
+			return bkName;
+		}
 	}
 
 	@Override
@@ -36,8 +42,8 @@ public class BooksDaoMySQL implements RequestDao {
 	@Override
 	public Books findById(Object type) {
 		Books bkId = em.find(Books.class, type);
-		
-		if(bkId == null) {
+
+		if (bkId == null) {
 			JOptionPane.showMessageDialog(null, "Id não encontrado", "Erro", JOptionPane.WARNING_MESSAGE);
 			return null;
 		}
@@ -54,17 +60,25 @@ public class BooksDaoMySQL implements RequestDao {
 
 	@Override
 	public void update(Object type) {
+		em.getTransaction().begin();
 		em.merge(type);
+		em.getTransaction().commit();
 
 	}
 
 	@Override
 	public void delete(Object type) {
-		Books bkId = em.find(Books.class, type);
+		Books bkId = this.findById(type);
+		
 		
 		if(bkId != null) {
-			em.remove(type);
+			em.getTransaction().begin();
+			em.remove(bkId);
+			JOptionPane.showMessageDialog(null, "Livro deletado com sucesso!", "Deletado",
+					JOptionPane.INFORMATION_MESSAGE);
+			em.getTransaction().commit();
 		}
+		
 
 	}
 
