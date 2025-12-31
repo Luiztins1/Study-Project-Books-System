@@ -11,7 +11,10 @@ desktop.ini
 .project
 .classpath
 bin/
-
+# Arquivos H2
+.mv.db
+.trace.db
+.lock.db
 # Sistema e Logs
 
 *.log
