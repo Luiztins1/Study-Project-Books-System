@@ -65,6 +65,7 @@ public class MenuMain extends Application {
 
 	// Buttons
 	private Button btSearchBook;
+	private Button btBackProgram;
 
 	// Stage
 	Stage stage;
@@ -115,6 +116,7 @@ public class MenuMain extends Application {
 		portoBooks = new Text("Porto Books");
 
 		btSearchBook = new Button("Pesquisar");
+		btBackProgram = new Button("Sair");
 
 		tbView = new TableView<Books>();
 		tbView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
@@ -126,6 +128,27 @@ public class MenuMain extends Application {
 		age = new TableColumn<Books, LocalDate>("Ano");
 		price = new TableColumn<Books, Double>("Preço");
 		priceMarket = new TableColumn<Books, Double>("Preço de Mercado");
+		
+		bookId.setResizable(false);
+		bookId.setReorderable(false);
+		
+		bookName.setResizable(false);
+		bookName.setReorderable(false);
+		
+		authorBook.setResizable(false);
+		authorBook.setReorderable(false);
+		
+		country.setResizable(false);
+		country.setReorderable(false);
+		
+		age.setResizable(false);
+		age.setReorderable(false);
+		
+		price.setResizable(false);
+		price.setReorderable(false);
+		
+		priceMarket.setResizable(false);
+		priceMarket.setReorderable(false);
 
 		bookId.setCellValueFactory(new PropertyValueFactory<Books, Integer>("id"));
 		bookName.setCellValueFactory(new PropertyValueFactory<Books, String>("name"));
@@ -139,7 +162,7 @@ public class MenuMain extends Application {
 
 		menuBar.getMenus().addAll(fileMenu, optionMenu, helpMenu);
 
-		menuMain.getChildren().addAll(vbox, tbView, txSearchBookName, btSearchBook, portoBooks);
+		menuMain.getChildren().addAll(vbox, tbView, txSearchBookName, btSearchBook, btBackProgram, portoBooks);
 
 	}
 
@@ -153,12 +176,16 @@ public class MenuMain extends Application {
 		txSearchBookName.setLayoutY(60);
 		txSearchBookName.setPromptText("Pesquisar livro (nome ou ID)");
 
-		portoBooks.setLayoutX(50);
+		portoBooks.setLayoutX(52);
 		portoBooks.setLayoutY(80);
 
 		btSearchBook.setPrefWidth(80);
 		btSearchBook.setLayoutX(350);
 		btSearchBook.setLayoutY(60);
+		
+		btBackProgram.setPrefWidth(100);
+		btBackProgram.setLayoutX(550);
+		btBackProgram.setLayoutY(520);
 	}
 
 	public void initListenersMenuMain() {
@@ -226,6 +253,16 @@ public class MenuMain extends Application {
 				stage.close();
 			} catch (Exception e2) {
 				e2.printStackTrace();
+			}
+		});
+		
+		btBackProgram.setOnAction(e ->{
+			try {
+				stage.close();
+				
+				System.exit(0);
+			} catch (Exception e3) {
+				e3.printStackTrace();
 			}
 		});
 	}

@@ -3,7 +3,7 @@ package com.controller;
 import java.time.LocalDate;
 import java.util.List;
 
-import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
 
 import com.model.dao.BooksDaoMySQL;
@@ -19,29 +19,26 @@ public class MenuMainOperations {
 
 	private RequestDaoFactory daoFactory;
 	public BooksDaoMySQL booksDao;
-	private ClientDaoMySQL clientDao;
-	private EmployeeDaoMySQL employeeDao;
-	private boolean flag = false;
-	private EntityManager em;
+	public ClientDaoMySQL clientDao;
+	public EmployeeDaoMySQL employeeDao;
+	private EntityManagerFactory emf;
 
-	public MenuMainOperations(EntityManager em) {
-		this.em = em;
-		this.daoFactory = new RequestDaoFactory(this.em);
-		booksDao = new BooksDaoMySQL(this.em);
-		clientDao = new ClientDaoMySQL(this.em);
-		employeeDao = new EmployeeDaoMySQL(this.em);
+	public MenuMainOperations(EntityManagerFactory emf) {
+		this.emf = emf;
+		this.daoFactory = new RequestDaoFactory(this.emf);
+		booksDao = new BooksDaoMySQL(this.emf);
+		clientDao = new ClientDaoMySQL(this.emf);
+		employeeDao = new EmployeeDaoMySQL(this.emf);
 
 	}
 
 	public void loginVerification(String name, Integer password) {
-		//Uma atualização é feita toda vez que um verificação de login é feita.
+		// Uma atualização é feita toda vez que um verificação de login é feita.
 		Employee emp = employeeDao.findByLogin(name, password);
-		
+
 		if (emp != null) {
-			em.getTransaction().begin();
 			employeeDao.update(emp);
 			UtilsObj.flagUtil = true;
-			em.getTransaction().commit();
 			JOptionPane.showMessageDialog(null, "Bem vindo " + emp.getName() + "!", "Login - Sucesso",
 					JOptionPane.PLAIN_MESSAGE);
 		}
@@ -53,15 +50,12 @@ public class MenuMainOperations {
 			JOptionPane.showMessageDialog(null, "Usuário já possui cadastrado", "Error", JOptionPane.ERROR_MESSAGE);
 		} else {
 			try {
-				em.getTransaction().begin();
 				JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!", "Cadastrado",
 						JOptionPane.PLAIN_MESSAGE);
 				employeeDao.insert(new Employee(name, password));
 				UtilsObj.flagUtil = true;
-				em.getTransaction().commit();
 
 			} catch (Exception e) {
-				em.getTransaction().rollback();
 				JOptionPane.showMessageDialog(null, "Erro ao salvar " + e.getMessage(), "Error",
 						JOptionPane.ERROR_MESSAGE);
 			}
@@ -69,37 +63,36 @@ public class MenuMainOperations {
 		}
 
 	}
-	
-	public void registerBook(String name, String author, String country, LocalDate age,  Double price, Double priceMarket) {
+
+	public void registerBook(String name, String author, String country, LocalDate age, Double price,
+			Double priceMarket) {
 		try {
-			em.getTransaction().begin();
+
 			booksDao.insert(new Books(null, name, author, country, age, price, priceMarket));
 			JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!", "Cadastrado",
 					JOptionPane.PLAIN_MESSAGE);
-			em.getTransaction().commit();
+
 		} catch (Exception e) {
-			em.getTransaction().rollback();
-			JOptionPane.showMessageDialog(null, "Erro ao salvar " + e.getMessage(), "Error",
-					JOptionPane.ERROR_MESSAGE);
+
+			JOptionPane.showMessageDialog(null, "Erro ao salvar " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 		}
 
 	}
-	
-	public void registerClient(String name, String surname, String cpf, LocalDate dateBirthday, String email, String telephoneNumber) {
+
+	public void registerClient(String name, String surname, String cpf, LocalDate dateBirthday, String email,
+			String telephoneNumber) {
 		try {
-			em.getTransaction().begin();
+
 			clientDao.insert(new Clients(name, surname, cpf, dateBirthday, email, telephoneNumber));
 			JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!", "Cadastrado",
 					JOptionPane.PLAIN_MESSAGE);
-			em.getTransaction().commit();
-			
+
 		} catch (Exception e) {
-			em.getTransaction().rollback();
-			JOptionPane.showMessageDialog(null, "Erro ao salvar " + e.getMessage(), "Error",
-					JOptionPane.ERROR_MESSAGE);
+
+			JOptionPane.showMessageDialog(null, "Erro ao salvar " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
-	
+
 	public List<Books> addItensInViewTable() {
 		List<Books> bkList = booksDao.findAll();
 		return bkList;

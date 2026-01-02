@@ -115,6 +115,13 @@ public class MenuBarRegisterBook extends Application {
 				String ageBook = txAgeBook.getText();
 				String priceBook = txPriceBook.getText();
 				String priceMarketBook = txNamePriceMarketBook.getText();
+				
+				if (nameBook.length() > 50 || nameAuthor.length() > 50 || country.length() > 20 || ageBook.length() > 10
+						|| priceBook.length() > 255 || priceMarketBook.length() > 255) {
+					JOptionPane.showMessageDialog(null,
+							"Nome deve conter 50 letras.\nNome autor 50 letras.\n País 20 letras\nAno 10 letras\n Preço 255 letras.\nPreço de mercado 255 letras.",
+							"Error", JOptionPane.PLAIN_MESSAGE);
+				}
 
 				if (nameBook.isEmpty() || nameAuthor.isEmpty() || country.isEmpty() || ageBook.isEmpty()
 						|| priceBook.isEmpty() || priceMarketBook.isEmpty()) {

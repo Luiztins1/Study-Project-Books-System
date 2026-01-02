@@ -20,7 +20,8 @@ public class MenuBarDeleteBook extends Application {
 	private TextField txIdBook;
 
 	// Button
-	private Button deleteBook;
+	private Button btDeleteBook;
+	private Button btBack;
 
 	// Scene
 	Scene sceneDeleteBook;
@@ -44,9 +45,10 @@ public class MenuBarDeleteBook extends Application {
 
 		txIdBook = new TextField();
 
-		deleteBook = new Button();
+		btDeleteBook = new Button();
+		btBack = new Button();
 
-		paneDeleteBook.getChildren().addAll(txIdBook, deleteBook);
+		paneDeleteBook.getChildren().addAll(txIdBook, btDeleteBook, btBack);
 
 	}
 
@@ -58,14 +60,19 @@ public class MenuBarDeleteBook extends Application {
 		txIdBook.setLayoutY(90);
 		txIdBook.setPromptText("Digite o ID");
 
-		deleteBook.setPrefWidth(100);
-		deleteBook.setLayoutX((320 - 100) / 2);
-		deleteBook.setLayoutY(200);
-		deleteBook.setText("Deletar");
+		btDeleteBook.setPrefWidth(100);
+		btDeleteBook.setLayoutX((320 - 100) / 2);
+		btDeleteBook.setLayoutY(200);
+		btDeleteBook.setText("Deletar");
+		
+		btBack.setPrefWidth(100);
+		btBack.setLayoutX((320 - 100) / 2);
+		btBack.setLayoutY(240);
+		btBack.setText("Voltar");
 	}
 
 	public void initListenersMenuBarDeleteBook() {
-		deleteBook.setOnAction(e -> {
+		btDeleteBook.setOnAction(e -> {
 			String idBook = txIdBook.getText();
 
 			if (idBook.trim().isEmpty()) {
@@ -86,6 +93,15 @@ public class MenuBarDeleteBook extends Application {
 			}
 			
 		});
+		
+		btBack.setOnAction(e ->{
+			try {
+				new MenuMain().start(new Stage());
+				stage.close();
+			} catch (Exception e3) {
+				e3.printStackTrace();
+			}
+		});
 	}
 
 	public void showMenuBarDeleteBook() {
@@ -94,7 +110,7 @@ public class MenuBarDeleteBook extends Application {
 		stage.setResizable(false);
 		stage.show();
 
-		deleteBook.requestFocus();
+		btDeleteBook.requestFocus();
 	}
 
 }

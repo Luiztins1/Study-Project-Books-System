@@ -115,13 +115,21 @@ public class MenuBarRegisterClient extends Application {
 				String email = txEmail.getText().trim();
 				String tel = telephoNumber.getText().trim();
 
+				if (name.length() > 25 || surname.length() > 15 || cpf.length() > 14 || email.length() > 60
+						|| tel.length() > 14) {
+					JOptionPane.showMessageDialog(null,
+							"Nome deve conter 25 letras.\nSobre nome 15 letras.\n CPF 14 letras\nEmail 60 letras\n Telefone 14 letras.",
+							"Error", JOptionPane.PLAIN_MESSAGE);
+				}
+
 				if (name.isEmpty() || surname.isEmpty() || cpf.isEmpty() || dateBirthday.isEmpty() || email.isEmpty()
 						|| tel.isEmpty()) {
 					JOptionPane.showMessageDialog(null, "Preencha os campos corretamente.", "Error",
 							JOptionPane.PLAIN_MESSAGE);
-					
+
 				} else {
-					LoginMenu.getController().registerClient(name, surname, cpf, LocalDate.parse(dateBirthday, fnt), email, tel);
+					LoginMenu.getController().registerClient(name, surname, cpf, LocalDate.parse(dateBirthday, fnt),
+							email, tel);
 					try {
 						new MenuMain().start(new Stage());
 						stage.close();
@@ -133,7 +141,7 @@ public class MenuBarRegisterClient extends Application {
 				JOptionPane.showMessageDialog(null, "Por favor, insira valores corretamente.");
 			} catch (DateTimeParseException ex) {
 				JOptionPane.showMessageDialog(null, "Data inválida. Use o formato correto (dd/MM/yyyy).");
-			} 
+			}
 			txNameClient.clear();
 			txSurname.clear();
 			txCpf.clear();

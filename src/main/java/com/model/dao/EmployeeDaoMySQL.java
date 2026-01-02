@@ -3,83 +3,165 @@ package com.model.dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
 
 import com.model.entities.Employee;
-import com.model.entities.WorkingPeople;
 import com.model.utils.UtilsImpl;
 
 public class EmployeeDaoMySQL implements RequestDao, UtilsImpl {
 
-	private EntityManager em;
+	private EntityManagerFactory emf;
 
 	public EmployeeDaoMySQL() {
 
 	}
 
-	public EmployeeDaoMySQL(EntityManager em) {
-		this.em = em;
+	public EmployeeDaoMySQL(EntityManagerFactory emf) {
+		this.emf = emf;
 	}
 
 	public Employee findByLogin(String name, Integer password) {
+		EntityManager em = emf.createEntityManager();
+
 		try {
 			String jqpl = "SELECT e FROM Employee e WHERE e.name = :pName AND e.password = :pPassword";
-			return em.createQuery(jqpl, Employee.class).setParameter("pName", name).setParameter("pPassword", password)
-					.getSingleResult();
+
+			em.getTransaction().begin();
+			List<Employee> listEmp = em.createQuery(jqpl, Employee.class).setParameter("pName", name)
+					.setParameter("pPassword", password).getResultList();
+			em.getTransaction().commit();
+
+			return listEmp.get(0);
 		} catch (javax.persistence.NoResultException e) {
 			JOptionPane.showMessageDialog(null, "Login e/ou senha inválida", "Erro", JOptionPane.ERROR_MESSAGE);
 			return null;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			em.getTransaction().rollback();
+			return null;
+		} finally {
+			em.close();
 		}
 	}
 
 	@Override
 	public void insert(Object type) {
-		em.persist(type);
+		EntityManager em = emf.createEntityManager();
+
+		try {
+			em.getTransaction().begin();
+			em.persist(type);
+			em.getTransaction().commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			em.getTransaction().rollback();
+			;
+		} finally {
+			em.close();
+		}
 
 	}
 
 	@Override
 	public Integer findById(Object type) {
-		Employee emp = em.find(Employee.class, type);
-		
-		if(emp == null) {
-			System.out.println("Id não encontrado");
+		EntityManager em = emf.createEntityManager();
+
+		try {
+			em.getTransaction().begin();
+			Employee emp = em.find(Employee.class, type);
+			em.getTransaction().commit();
+			if (emp == null) {
+				System.out.println("Id não encontrado");
+				return null;
+			}
+			return emp.getId();
+		} catch (Exception e) {
+			e.printStackTrace();
+			em.getTransaction().rollback();
 			return null;
+		} finally {
+			em.close();
 		}
-		
-		return emp.getId();
+
 	}
 
 	@Override
 	public List<Employee> findAll() {
-		String jpql = "SELECT e FROM Employee e";
+		EntityManager em = emf.createEntityManager();
 
-		List<Employee> empList = em.createQuery(jpql, Employee.class).getResultList();
-		return empList;
+		try {
+			String jpql = "SELECT e FROM Employee e";
+			em.getTransaction().begin();
+			List<Employee> empList = em.createQuery(jpql, Employee.class).getResultList();
+			em.getTransaction().commit();
+			return empList;
+		} catch (Exception e) {
+			e.printStackTrace();
+			em.getTransaction().rollback();
+			return null;
+		} finally {
+			em.close();
+		}
+
 	}
 
 	@Override
 	public void update(Object type) {
-		em.merge(type);
+		EntityManager em = emf.createEntityManager();
+
+		try {
+			em.getTransaction().begin();
+			em.merge(type);
+			em.getTransaction().commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			em.getTransaction().rollback();
+		} finally {
+			em.close();
+		}
 
 	}
 
 	@Override
 	public void delete(Object type) {
-		Employee emp = em.find(Employee.class, type);
-		
-		if(emp != null) {
-			em.remove(emp);
+		EntityManager em = emf.createEntityManager();
+
+		try {
+			em.getTransaction().begin();
+			Employee emp = em.find(Employee.class, type);
+
+			if (emp != null) {
+				em.remove(emp);
+				em.getTransaction().commit();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			em.getTransaction().rollback();
+		} finally {
+			em.close();
 		}
+
 	}
 
 	@Override
 	public boolean existName(String name) {
-		String jqpl = "SELECT COUNT(e) FROM Employee e WHERE e.name = :pName";
+		EntityManager em = emf.createEntityManager();
 
-		Long count = em.createQuery(jqpl, Long.class).setParameter("pName", name).getSingleResult();
+		try {
+			String jqpl = "SELECT COUNT(e) FROM Employee e WHERE e.name = :pName";
 
-		return count > 0;
+			Long count = em.createQuery(jqpl, Long.class).setParameter("pName", name).getSingleResult();
+
+			return count > 0;
+		} catch (Exception e) {
+			e.printStackTrace();
+			em.getTransaction().begin();
+			return false;
+		} finally {
+			em.close();
+		}
+
 	}
-
 }

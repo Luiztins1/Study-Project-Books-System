@@ -57,7 +57,7 @@ public class LoginMenu extends Application {
 	public void init() {
 		this.emf = Persistence.createEntityManagerFactory("books-system");
 		this.em = emf.createEntityManager();
-		controller = new MenuMainOperations(this.em);
+		controller = new MenuMainOperations(this.emf);
 	}
 
 	public void showLoginScene() {
@@ -169,9 +169,9 @@ public class LoginMenu extends Application {
 	@Override
 	public void stop() throws Exception {
 		System.out.println("Encerrando conexões...");
-		if (em == null && em.isOpen())
+		if (em != null && em.isOpen())
 			em.close();
-		if (emf == null && emf.isOpen())
+		if (emf != null && emf.isOpen())
 			emf.close();
 		System.out.println("Sistema fechado com sucesso!");
 	}
