@@ -1,6 +1,6 @@
 # Porto Books - System 📚
 
-##Protótipo de sistema de gerencimanto de livros desenvolvido para estudos de persistência de dados.
+Protótipo de sistema de gerencimanto de livros desenvolvido para estudos de persistência de dados.
 
 ## 🛠 Tecnologias e ferramentas
 * **Java 17** (Core e JavaFX para inteface)
