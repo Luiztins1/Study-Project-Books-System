@@ -21,6 +21,7 @@ public class MenuMainOperations {
 	public BooksDaoMySQL booksDao;
 	public ClientDaoMySQL clientDao;
 	public EmployeeDaoMySQL employeeDao;
+	private boolean flag = false;
 	private EntityManagerFactory emf;
 
 	public MenuMainOperations(EntityManagerFactory emf) {
@@ -33,9 +34,9 @@ public class MenuMainOperations {
 	}
 
 	public void loginVerification(String name, Integer password) {
-		// Uma atualização é feita toda vez que um verificação de login é feita.
+		//Uma atualização é feita toda vez que um verificação de login é feita.
 		Employee emp = employeeDao.findByLogin(name, password);
-
+		
 		if (emp != null) {
 			employeeDao.update(emp);
 			UtilsObj.flagUtil = true;
@@ -63,36 +64,39 @@ public class MenuMainOperations {
 		}
 
 	}
-
-	public void registerBook(String name, String author, String country, LocalDate age, Double price,
-			Double priceMarket) {
+	
+	public void registerBook(String name, String author, String country, LocalDate age,  Double price, Double priceMarket) {
 		try {
-
+		
 			booksDao.insert(new Books(null, name, author, country, age, price, priceMarket));
 			JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!", "Cadastrado",
 					JOptionPane.PLAIN_MESSAGE);
-
+			
 		} catch (Exception e) {
-
-			JOptionPane.showMessageDialog(null, "Erro ao salvar " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+			
+			JOptionPane.showMessageDialog(null, "Erro ao salvar " + e.getMessage(), "Error",
+					JOptionPane.ERROR_MESSAGE);
 		}
 
 	}
-
-	public void registerClient(String name, String surname, String cpf, LocalDate dateBirthday, String email,
-			String telephoneNumber) {
+	
+	public void registerClient(String name, String surname, String cpf, LocalDate dateBirthday, String email, String telephoneNumber) {
 		try {
-
+			
 			clientDao.insert(new Clients(name, surname, cpf, dateBirthday, email, telephoneNumber));
 			JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!", "Cadastrado",
 					JOptionPane.PLAIN_MESSAGE);
-
+			
+			
 		} catch (Exception e) {
-
-			JOptionPane.showMessageDialog(null, "Erro ao salvar " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+		
+			JOptionPane.showMessageDialog(null, "Erro ao salvar " + e.getMessage(), "Error",
+					JOptionPane.ERROR_MESSAGE);
 		}
 	}
-
+	
+	
+	
 	public List<Books> addItensInViewTable() {
 		List<Books> bkList = booksDao.findAll();
 		return bkList;

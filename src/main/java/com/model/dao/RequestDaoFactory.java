@@ -1,5 +1,6 @@
 package com.model.dao;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
 public class RequestDaoFactory {

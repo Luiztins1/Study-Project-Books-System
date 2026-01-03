@@ -171,7 +171,7 @@ public class LoginMenu extends Application {
 		System.out.println("Encerrando conexões...");
 		if (em != null && em.isOpen())
 			em.close();
-		if (emf != null && emf.isOpen())
+		if (emf == null && emf.isOpen())
 			emf.close();
 		System.out.println("Sistema fechado com sucesso!");
 	}

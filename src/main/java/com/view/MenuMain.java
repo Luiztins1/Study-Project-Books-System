@@ -50,6 +50,7 @@ public class MenuMain extends Application {
 	private MenuItem registerBook;
 	private MenuItem deleteBook;
 	private MenuItem registerUser;
+	private MenuItem listClients;
 
 	// AnchorPane
 	private AnchorPane menuMain;
@@ -65,7 +66,7 @@ public class MenuMain extends Application {
 
 	// Buttons
 	private Button btSearchBook;
-	private Button btBackProgram;
+	private Button btListAll;
 
 	// Stage
 	Stage stage;
@@ -108,15 +109,17 @@ public class MenuMain extends Application {
 		registerBook = new MenuItem("Registrar Livro");
 		deleteBook = new MenuItem("Deletar Livro");
 		registerUser = new MenuItem("Registrar Cliente");
+		listClients = new MenuItem("Listar clientes cadastrados");
 
 		fileMenu.getItems().addAll(registerBook, deleteBook, registerUser);
+		optionMenu.getItems().addAll(listClients);
 
 		txSearchBookName = new TextField();
 
 		portoBooks = new Text("Porto Books");
 
 		btSearchBook = new Button("Pesquisar");
-		btBackProgram = new Button("Sair");
+		btListAll = new Button("Listar todos");
 
 		tbView = new TableView<Books>();
 		tbView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
@@ -128,25 +131,25 @@ public class MenuMain extends Application {
 		age = new TableColumn<Books, LocalDate>("Ano");
 		price = new TableColumn<Books, Double>("Preço");
 		priceMarket = new TableColumn<Books, Double>("Preço de Mercado");
-		
+
 		bookId.setResizable(false);
 		bookId.setReorderable(false);
-		
+
 		bookName.setResizable(false);
 		bookName.setReorderable(false);
-		
+
 		authorBook.setResizable(false);
 		authorBook.setReorderable(false);
-		
+
 		country.setResizable(false);
 		country.setReorderable(false);
-		
+
 		age.setResizable(false);
 		age.setReorderable(false);
-		
+
 		price.setResizable(false);
 		price.setReorderable(false);
-		
+
 		priceMarket.setResizable(false);
 		priceMarket.setReorderable(false);
 
@@ -162,7 +165,8 @@ public class MenuMain extends Application {
 
 		menuBar.getMenus().addAll(fileMenu, optionMenu, helpMenu);
 
-		menuMain.getChildren().addAll(vbox, tbView, txSearchBookName, btSearchBook, btBackProgram, portoBooks);
+		menuMain.getChildren().addAll(vbox, tbView, txSearchBookName, btSearchBook, btListAll,
+				portoBooks);
 
 	}
 
@@ -182,10 +186,10 @@ public class MenuMain extends Application {
 		btSearchBook.setPrefWidth(80);
 		btSearchBook.setLayoutX(350);
 		btSearchBook.setLayoutY(60);
-		
-		btBackProgram.setPrefWidth(100);
-		btBackProgram.setLayoutX(550);
-		btBackProgram.setLayoutY(520);
+
+		btListAll.setPrefWidth(100);
+		btListAll.setLayoutX(240);
+		btListAll.setLayoutY(60);
 	}
 
 	public void initListenersMenuMain() {
@@ -198,19 +202,19 @@ public class MenuMain extends Application {
 
 			}
 		});
-		
-		deleteBook.setOnAction(e ->{
+
+		deleteBook.setOnAction(e -> {
 			try {
 				new MenuBarDeleteBook().start(new Stage());
 				stage.close();
 			} catch (Exception e3) {
 				e3.printStackTrace();
 			}
-			
+
 		});
 
 		if (txSearchBookName.getText() == null || txSearchBookName.getText().trim().isEmpty()) {
-			tbView.setPlaceholder(new Label("Faça um pesquisa"));
+			tbView.setPlaceholder(new Label("Faça um pesquisa ou liste todos."));
 		}
 
 		btSearchBook.setOnAction(e -> {
@@ -238,16 +242,30 @@ public class MenuMain extends Application {
 				txSearchBookName.clear();
 
 			} else {
-				List<Books> searchBook = LoginMenu.getController().booksDao.searchBookName(search);	
+				List<Books> searchBook = LoginMenu.getController().booksDao.searchBookName(search);
 				listItens.setAll(searchBook);
 			}
-			
+
 			txSearchBookName.clear();
 			tbView.setItems(listItens);
 
 		});
-		
-		registerUser.setOnAction(e ->{
+
+		btListAll.setOnAction(e -> {
+			List<Books> listAll = LoginMenu.getController().booksDao.findAll();
+
+			if (tbView.getItems().isEmpty()) {
+				JOptionPane.showMessageDialog(null, "Ainda não existe livros cadastrados.", "Erro",
+						JOptionPane.WARNING_MESSAGE);
+			} else {
+
+				listItens.clear();
+				listItens.setAll(listAll);
+				tbView.setItems(listItens);
+			}
+		});
+
+		registerUser.setOnAction(e -> {
 			try {
 				new MenuBarRegisterClient().start(new Stage());
 				stage.close();
@@ -256,14 +274,14 @@ public class MenuMain extends Application {
 			}
 		});
 		
-		btBackProgram.setOnAction(e ->{
+		listClients.setOnAction(e ->{
 			try {
+				new MenuListClients().start(new Stage());
 				stage.close();
-				
-				System.exit(0);
 			} catch (Exception e3) {
 				e3.printStackTrace();
 			}
+			
 		});
 	}
 
